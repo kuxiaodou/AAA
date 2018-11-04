@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>课程详细</title>
+    <script src="../js/jquery.tabs.js"></script>
+    <script src="../js/mine.js"></script>
+    <script src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <link rel="stylesheet" href="../css/x-admin.css" media="all">
+</head>
+<body>
+<div class="coursetext" id="course" style="height: 3000px;">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    <button class="layui-btn" onclick="banner_add('添加课程目录','theCourseCatalog-add.html','600','500')"><i class="layui-icon">&#xe608;</i>添加目录</button>
+    <button class="layui-btn" onclick="banner_add('添加课程详细目录','theCourseCatalogInfo-add.html','600','500')"><i class="layui-icon">&#xe608;</i>添加目录详细</button>
+    <h3 class="leftit">课程简介</h3>
+    <p class="coutex"><span v-text="msg[0].courseOverview"></span></p>
+    <div class="clearh"></div>
+    <h3 class="leftit">课程目录</h3>
+    <dl class="mulu">
+            <span v-for="value in msg" >
+    	     <dt style="width: 400px;display: block;height: 23px;border: 0px solid red;margin-top: 10px;"><a href="coursecont1.html" style="width: 200px;display: block;border: 0px solid pink;float: left;" class="graylink" v-text="value.name"></a>
+                     <input type="button" value="删除本章"  @click="delteTheCourseCatalogTcid(value.tcid)">
+                     <input type="button" value="修改本章"  @click="updateTheCourseCatalogTcid(value.tcid)">
+             </dt>
+             <dd v-text="value.title"></dd>
+                <span v-text="value.tname"></span>
+                <span v-for="values in res">
+                  <span style="display: block;color: red;margin-left: 10px;border: 0px solid red;width: 330px;margin-top: 10px;" v-if="value.tcid===values.tcid">
+                      <span style="border: 0px solid red;width: 190px;display: block;float: left;">{{values.tname}}</span>
+                      <input type="button" value="删除本节" @click="deleteTheCourseCatalogInfoTnid(values.tnid)">
+                      <input type="button" value="修改本节" @click="updateTheCourseCatalogInfoTnid(values.tnid)">
+                  </span>
+                </span>
+            </span>
+    </dl>
+</div>
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../js/x-layui.js" charset="utf-8"></script>
+<script>
+
+    $(function () {
+        var category=window.location.search;
+        var cateval = category.substring(category.lastIndexOf('=')+1, category.length);
+        new Vue({
+            el:"#course",
+            data:{
+                msg:[],
+                res:[]
+            },
+            created:function () {
+                var selp=this;
+                var info=this;
+                $.ajax({
+                    url:"http://localhost:8080/infomation/controllerTheCourseCatalog/showtheCourseCataloByCoid?coid="+cateval,
+                    type:"post",
+                    dataType:"json",
+                    success:function(data) {
+                        selp.msg=data
+                    }
+                });
+                $.ajax({
+                    url:"http://localhost:8080/infomation/controllerTheCourseCatalogInfo/showAlltheCourseCatalogInfo",
+                    type:"post",
+                    dataType:"json",
+                    success:function(data) {
+                        info.res=data
+                    }
+                });
+            },
+            methods:{
+                delteTheCourseCatalogTcid(index){
+                    var id;
+                    id=index;
+                    layer.confirm('确认要删除吗？',function(index){
+                        //捉到所有被选中的，发异步进行删除
+                        //alert(index)
+                        $.ajax({
+                            url:"http://localhost:8080/infomation/controllerTheCourseCatalog/deleteCourseCatalogOnCourseCatalogInfoByTcid?tcid="+id+"&coid="+cateval,
+                            type:"post",
+                            dataType:"json",
+                            success:function(data) {
+                                if(data!=null){
+                                    alert("删除成功！")
+                                    window.location.href='../back/course-list-info.html?coid='+data;
+                                }
+                              //  layer.msg('删除成功!',{
+                              //      icon: 1,time:1000
+                              //  });
+                               // window.setTimeout("window.location.href='../back/course-list-info.html?coid='"+data,1000);
+                            }
+                        });
+                    });
+                },
+                updateTheCourseCatalogTcid(index){
+                    banner_add('修改课程目录','theCourseCatalog-update.html?tcid='+index+'&coid='+cateval,'300','300')
+                },
+                deleteTheCourseCatalogInfoTnid(index){
+                    $.ajax({
+                        url:'http://localhost:8080/infomation/controllerTheCourseCatalogInfo/deleteCourseCatalogInfoByTcid',
+                        dataType:'json',
+                        data:{"tnid":index,"coid":cateval},
+                        type:"post",
+                        success:function (data) {
+                            alert("删除成功！")
+                            window.location.href='../back/course-list-info.html?coid='+data;
+                        }
+                    });
+                },
+                updateTheCourseCatalogInfoTnid(index){
+                    banner_add('修改课程目录详细','theCourseCatalogInfo-update.html?tnid='+index+'&coid='+cateval,'300','300')
+                }
+            }
+        });
+    })
+
+    layui.use(['laydate','element','laypage','layer'], function(){
+        $ = layui.jquery;//jquery
+        laydate = layui.laydate;//日期插件
+        lement = layui.element();//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+
+        //以上模块根据需要引入
+
+        laypage({
+            cont: 'page'
+            ,pages: 100
+            ,first: 1
+            ,last: 100
+            ,prev: '<em><</em>'
+            ,next: '<em>></em>'
+        });
+
+
+    });
+    /*添加*/
+    function banner_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+</script>
+</body>
+</html>

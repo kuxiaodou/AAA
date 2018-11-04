@@ -1,0 +1,627 @@
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/dwt.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>谋刻职业教育在线测评与学习平台</title>
+
+<link rel="stylesheet" href="css/article.css">
+<script src="js/jquery-1.8.0.min.js"></script>
+<script src="js/mine.js"></script>
+    <!-- 引用vue包 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<script>
+    $(function(){
+        $.ajax({
+            url: 'controllerUser/logins',
+            cache:false,
+            async:false,
+            type: 'post',
+            success: function (data) {
+                if(data!=""){
+                    var sk="<img src='images/zh.jpg' style='position: absolute;top:7px; display: inline-block;width: 70px;height:50px;border:1px solid #f6f6f6;'><span style='position: relative;left:60%;font-size: 17px;text-align: center;'>"+data.name+"</span>";
+                    $(".exambtn_lore").html(sk);
+                    $("#te").val(data.usid);
+                }else{
+                    $(".exambtn_lore").html("<a class='tkbtn tklog' href='login.html'>登录</a>" +
+                        "<a class='tkbtn tkreg' href='register.html'>注册</a>");
+                }
+            }});
+        $.ajax({
+            url: 'document/showtype',
+            cache:false,
+            async:false,
+            type: 'post',
+            success: function (data) {
+                var sk="";
+                for(var i=0;i<data.length;i++){
+                    sk+="<a class='fombtn' href='javascript:;' style='width:70px;' onclick='typ(this)'>"+data[i].type+"</a>";
+                }
+                $("#a").html(sk);
+                $("#a a:first-child").css("background-color","#72D1ED");
+            }});
+        $.ajax({
+            url: 'document/query_type',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":'大学'},
+            success: function (data) {
+                var sk="";
+                for(var i=0;i<data.length;i++){
+                    sk+="<a class='fombtn' href='javascript:;' style='width:70px;' onclick='typs(this)' name='"+data[i].modid+"'>"+data[i].matype+"</a>";
+                }
+                $("#ty").html(sk);
+                $("#zy").html("<a class='fombtn cur' href='javascript:;' style='width:70px;'>"+data[0].cltype+"</a>");
+            }});
+        $.ajax({
+            url: 'document/query_catalogue',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":"大学"},
+            success: function (data) {
+                var param="";
+                for(var i=0;i<data.length;i++){
+                    param+="<li><a class='ask_link' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'><strong>●</strong>"+data[i].title+"</a><a class='"+i+"' style='display:none;'>"+data[i].caid+"</a></li>";
+                }
+                $(".hotask").html(param);
+            }});
+        $.ajax({
+            url: 'document/query_catalogues',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":"大学"},
+            success: function (data) {
+                var param="";
+                var name="";
+                for(var i=0;i<data.length;i++){
+                    if(data[i].money==0){
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="推荐文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left:80px;'>★"+data[i].collect+"次收藏</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "免费</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }else{
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="经典文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>★"+data[i].collect+"次收藏</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "￥"+data[i].money+"元</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }
+                }
+                $(".articlelist").html(param);
+            }});
+    });
+    function typ(param){
+        //切换专业和科目
+        $.ajax({
+            url: 'document/query_type',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":param.innerHTML},
+            success: function (data) {
+                $("#a .fombtn").css("background-color","");
+                //$(param)相当于$(this)
+                $(param).css("background-color","#72D1ED");
+                var sk="";
+                for(var i=0;i<data.length;i++){
+                    sk+="<a class='fombtn' href='javascript:;' style='width:70px;' onclick='typs(this)' name='"+data[i].modid+"'>"+data[i].matype+"</a>";
+                }
+                $("#ty").html(sk);
+                $("#zy").html("<a class='fombtn cur' href='javascript:;' style='width:70px;'>"+data[0].cltype+"</a>");
+            }});
+        //点击学段进行查询文档
+        $.ajax({
+            url: 'document/query_catalogues',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":param.innerHTML},
+            success: function (data) {
+                var param="";
+                var name="";
+                for(var i=0;i<data.length;i++){
+                    if(data[i].money==0){
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="推荐文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left:80px;'>★"+data[i].collect+"次收藏</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "免费</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }else{
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="经典文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>★"+data[i].collect+"次收藏</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "￥"+data[i].money+"元</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }
+                }
+                $(".articlelist").html(param);
+            }});
+        //点击学段显示热门文档
+        $.ajax({
+            url: 'document/query_catalogue',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":param.innerHTML},
+            success: function (data) {
+                var param="";
+                for(var i=0;i<data.length;i++){
+                    param+="<li><a class='ask_link' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'><strong>●</strong>"+data[i].title+"</a><a class='"+i+"' style='display:none;'>"+data[i].caid+"</a></li>";
+                }
+                $(".hotask").html(param);
+            }});
+    }
+    function typs(param){
+        $("#ty .fombtn").css("background-color","");
+        $(param).css("background-color","#72D1ED");
+        //点击学段进行查询文档
+        $.ajax({
+            url: 'document/catalogue_types',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":param.innerHTML,"types":param.name},
+            success: function (data) {
+                var param="";
+                var name="";
+                for(var i=0;i<data.length;i++){
+                    if(data[i].money==0){
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="推荐文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left:80px;'>★"+data[i].collect+"次收藏</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "免费</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }else{
+                        if($("."+0+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+1+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+2+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+3+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else if($("."+4+"").html()==data[i].caid){
+                            name="热门文档";
+                        }else{
+                            name="经典文档";
+                        }
+                        param+="<h3><a class='artlink' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'>"+data[i].title+"</a></h3>" +
+                            "<p>"+data[i].explain+"</p><p class='artilabel'><span class='ask_label'>"+name+"</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[i].viewcont+"次浏览" +
+                            "</span><span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>★"+data[i].collect+"次收藏</span>" +
+                            "<span style='padding: 2px 10px; font-size: 14px;border-radius: 3px;margin-left: 80px;'>" +
+                            "￥"+data[i].money+"元</span><b class='labtime'>"+data[i].creationTime+"</b>";
+                    }
+                }
+                $(".articlelist").html(param);
+            }});
+        //点击学段显示热门文档
+        $.ajax({
+            url: 'document/catalogue_types',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"type":param.innerHTML,"types":param.name},
+            success: function (data) {
+                var param="";
+                for(var i=0;i<data.length;i++){
+                    param+="<li><a class='ask_link' href='javascript:;' name='"+data[i].caid+"' id='"+data[i].viewcont+"' onclick='tit(this)'><strong>●</strong>"+data[i].title+"</a><a class='"+i+"' style='display:none;'>"+data[i].caid+"</a></li>";
+                }
+                $(".hotask").html(param);
+            }});
+    }
+    function tit(param){
+        $.ajax({
+            url: 'document/addviewcont',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"view" : param.id,"caid" : param.name},
+            success: function (data) {
+
+            }
+        });
+        $.ajax({
+            url: 'document/collection',
+            cache: false,
+            async: false,
+            type: 'post',
+            data: {"caid": param.name,"usid" :$("#te").val()},
+            success: function (data) {
+                if(data){
+                    $.ajax({
+                        url: 'document/query_title',
+                        cache:false,
+                        async:false,
+                        type: 'post',
+                        data: {"caid":param.name},
+                        success: function (data) {
+                            var pam="";
+                            if(data[0].money==0) {
+                                pam="<h2 style='display: block;'>"+data[0].catitle+"<input type='button' class='"+data[0].cacid+"' name='"+data[0].collect+"' onclick='collects(this)' value='★已收藏' style='font-size:16px;width:90px;height:26px;position: relative;left:40%;background-color:#fff;border:1px #000 solid;border-radius:20px;'></h2>" +
+                                    "<span style='font-size: 14px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[0].caview+"次浏览</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>★<span style='display: inline-block;' class='colle'>"+data[0].collect+"</span>次收藏</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>免费</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>"+data[0].catime+"</span><hr style='margin-top:6px;border:1px #bfbfbf dashed;'/>" +
+                                    "<span style='font-size: 18px;margin-top:20px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>编辑推荐：</p><hr style='position:relative;top:-8px;'/>"+data[0].explain+"</span>" +
+                                    "<span style='font-size: 18px;margin-top:30px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>资料目录：</p><hr style='position:relative;top:-8px;'/></span>";
+                            }else{
+                                pam="<h2 style='display: block;'>"+data[0].catitle+"<input type='button' class='"+data[0].cacid+"' name='"+data[0].collect+"' onclick='collects(this)' value='★已收藏' style='font-size:16px;width:90px;height:26px;position: relative;left:40%;background-color:#fff;border:1px #000 solid;border-radius:20px;'></h2>" +
+                                    "<span style='font-size: 14px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[0].caview+"次浏览</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>★<span style='display: inline-block;' class='colle'>"+data[0].collect+"</span>次收藏</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>￥"+data[0].money+"元</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>"+data[0].catime+"</span><hr style='margin-top:6px;border:1px #bfbfbf dashed;'/>" +
+                                    "<span style='font-size: 18px;margin-top:20px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>编辑推荐：</p><hr style='position:relative;top:-8px;'/>"+data[0].explain+"</span>" +
+                                    "<span style='font-size: 18px;margin-top:30px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>资料目录：</p><hr style='position:relative;top:-8px;'/></span>";
+                            }
+                            for(var i=0;i<data.length;i++){
+                                pam+="<a href='javascript:;' onclick='context(this)' class='"+data[i].onid+"' name='"+data[i].viewconts+"' style='color:#000;margin-top:30px;display: inline-block;font-size: 19px;' onmouseover='mous(this)' onmouseout='mouse(this)'><img src='images/wp.png'style='width:25px;height:25px;position: relative;top:5px;'/>&nbsp;"+data[i].oltitle+"</a><span style='font-size: 19px;position: absolute;margin-top: 35px;right:17%;'><img src='images/liulan.png' style='width: 24px;height:14px;'/> "+data[i].viewconts+"次浏览</span><br/>";
+                            }
+                            $(".articlelist").html(pam);
+                        }});
+                }else{
+                    $.ajax({
+                        url: 'document/query_title',
+                        cache:false,
+                        async:false,
+                        type: 'post',
+                        data: {"caid":param.name},
+                        success: function (data) {
+                            var pam="";
+                            if(data[0].money==0) {
+                                pam="<h2 style='display: block;'>"+data[0].catitle+"<input type='button' class='"+data[0].cacid+"' name='"+data[0].collect+"' onclick='collect(this)' value='☆收藏' style='font-size:16px;width:90px;height:26px;position: relative;left:40%;background-color:#fff;border:1px #000 solid;border-radius:20px;'></h2>" +
+                                    "<span style='font-size: 14px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[0].caview+"次浏览</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>★<span style='display: inline-block;' class='colle'>"+data[0].collect+"</span>次收藏</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>免费</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>"+data[0].catime+"</span><hr style='margin-top:6px;border:1px #bfbfbf dashed;'/>" +
+                                    "<span style='font-size: 18px;margin-top:20px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>编辑推荐：</p><hr style='position:relative;top:-8px;'/>"+data[0].explain+"</span>" +
+                                    "<span style='font-size: 18px;margin-top:30px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>资料目录：</p><hr style='position:relative;top:-8px;'/></span>";
+                            }else{
+                                pam="<h2 style='display: block;'>"+data[0].catitle+"<input type='button' class='"+data[0].cacid+"' name='"+data[0].collect+"' onclick='collect(this)' value='☆收藏' style='font-size:16px;width:90px;height:26px;position: relative;left:40%;background-color:#fff;border:1px #000 solid;border-radius:20px;'></h2>" +
+                                    "<span style='font-size: 14px;'><img src='images/liulan.png' style='width: 22px;height:12px;'/> "+data[0].caview+"次浏览</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>★<span style='display: inline-block;' class='colle'>"+data[0].collect+"</span>次收藏</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>￥"+data[0].money+"元</span>" +
+                                    "<span style='font-size: 14px;margin-left:18%;'>"+data[0].catime+"</span><hr style='margin-top:6px;border:1px #bfbfbf dashed;'/>" +
+                                    "<span style='font-size: 18px;margin-top:20px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>编辑推荐：</p><hr style='position:relative;top:-8px;'/>"+data[0].explain+"</span>" +
+                                    "<span style='font-size: 18px;margin-top:30px;display: block;'><img src='images/tj.png' style='width:200px;height:30px;display: inline-block'/><p style='position:relative;font-size:17px;left:-25%;top:-7px;display:inline-block;color: #ffff86;'>资料目录：</p><hr style='position:relative;top:-8px;'/></span>";
+                            }
+                            for(var i=0;i<data.length;i++){
+                                pam+="<a href='javascript:;' onclick='context(this)' class='"+data[i].onid+"' name='"+data[i].viewconts+"' style='color:#000;margin-top:30px;display: inline-block;font-size: 19px;' onmouseover='mous(this)' onmouseout='mouse(this)'><img src='images/wp.png'style='width:25px;height:25px;position: relative;top:5px;'/>&nbsp;"+data[i].oltitle+"</a><span style='font-size: 19px;position: absolute;margin-top: 35px;right:17%;'><img src='images/liulan.png' style='width: 24px;height:14px;'/> "+data[i].viewconts+"次浏览</span><br/>";
+                            }
+                            $(".articlelist").html(pam);
+                        }});
+                }
+            }
+        });
+    }
+    function mous(param){
+        $(param).css("color","#ff2424");
+    }
+    function mouse(param){
+        $(param).css("color","#000000");
+    }
+    function context(param){
+        $.ajax({
+            url:'document/addviewconts',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"view" : param.name,"onid" : param.className},
+            success: function (data) {
+
+            }
+        });
+        $.ajax({
+            url: 'document/show_documents',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"onid":param.className},
+            success: function (data) {
+                var pam="";
+                for(var i=0;i<data.length;i++){
+                    pam+="<span style='display: block;'><img src='images/wp.png'style='width:27px;height:27px;display: inline-block;position: relative;top:5px;'/>&nbsp;<h2 style='display: inline-block;'>"+data[i].title+"</h2></span>" +
+                        "<span style='display:block;'><span style='font-size: 15px;'><img src='images/liulan.png' style='width: 23px;height:13px;'/> "+data[i].viewconts+"次浏览</span>" +
+                        "<span style='font-size: 15px;position: relative;left: 67%;'>"+data[i].creationTime+"</span></span><hr style='margin-top:6px;border:1px #bfbfbf dashed;'/><br/>" +
+                        "<span style='display: block;'><span style='font-size: 20px;margin-left: 40px;'>添加数据中的内容<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高考复习是一个连续而且漫长的过程，尤其是一轮复习阶段，学习的重心应该转移到基础复习上来。2019年高考物理一轮复习必刷题练习<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高考复习是一个连续而且漫长的过程，尤其是一轮复习阶段，学习的重心应该转移到基础复习上来。2019年高考物理一轮复习必刷题练习，里面包含历年高考物理一轮复习基础必做习题和考点，需要的快来下载多多练习吧<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高考复习是一个连续而且漫长的过程，尤其是一轮复习阶段，学习的重心应该转移到基础复习上来。2019年高考物理一轮复习必刷题练习，里面包含历年高考物理一轮复习基础必做习题和<br/></span></span>";
+                }
+                $(".articlelist").html(pam);
+            }
+        });
+    }
+    function collects(param){
+        $.ajax({
+            url: 'document/Deletecollections',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"caid" : param.className,"usid" :$("#te").val()},
+            success: function (data) {
+                if(data){
+                    alert("已取消收藏！");
+                    $("h2 ."+param.className+"").val("☆收藏").attr("onclick","collect(this)");
+                    $(".colle").html($(".colle").html()-1);
+                    //取消收藏之后会减少一次收藏次数
+                    $.ajax({
+                        url: 'document/Update_context',
+                        cache:false,
+                        async:false,
+                        type: 'post',
+                        data: {"caid" : param.className,"collect" :param.name,"id":0},
+                        success: function (data) {
+
+                        }
+                        });
+                }
+            }
+        });
+    }
+    function collect(param){
+        $.ajax({
+            url: 'document/Addcollections',
+            cache:false,
+            async:false,
+            type: 'post',
+            data: {"caid" : param.className,"usid" : 1},
+            success: function (data) {
+                if(data){
+                    alert("收藏成功！");
+                    $("h2 ."+param.className+"").val("★已收藏").attr("onclick","collects(this)");
+                    $(".colle").html(Number($(".colle").html())+Number(1));
+                    //添加收藏之后会增加一次收藏次数
+                    $.ajax({
+                        url: 'document/Update_context',
+                        cache:false,
+                        async:false,
+                        type: 'post',
+                        data: {"caid" : param.className,"collect" :param.name,"id":1},
+                        success: function (data) {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+</head>
+
+<body>
+<input type="text" style="display: none;" id="te">
+<div class="head" id="fixed">
+	<div class="nav">
+    	<span class="navimg"><a href="index.html"><img border="0" src="images/logo.png"></a></span>
+        <ul class="nag">
+        	<li><a href="courselist.html" class="link1 current">课程</a></li>
+            <li><a href="articlelist.html" class="link1">资讯</a></li>
+            <li><a href="teacherlist.html" class="link1">讲师</a></li>
+            <li><a href="exam_index.html" class="link1" target="_blank">题库</a></li>
+            <li><a href="askarea.html" class="link1" target="_blank">问答</a></li>
+
+        </ul>
+        <span class="massage">
+            <!--<span class="select">
+        	<a href="#" class="sort">课程</a>
+        	<input type="text" value="关键字"/>
+            <a href="#" class="sellink"></a>
+            <span class="sortext">
+            	<p>课程</p>
+                <p>题库</p>
+                <p>讲师</p>
+            </span>
+        </span>-->
+        	<!--未登录-->
+        	<span class="exambtn_lore">
+                 <!--<a class="tkbtn tklog" href="login.html">登录</a>
+                 <a class="tkbtn tkreg" href="register.html">注册</a>-->
+            </span>
+            <!--登录后-->
+            <!--<div class="logined">
+                <a href="mycourse.html"  onMouseOver="logmine()" style="width:70px" class="link2 he ico" target="_blank">sherley</a>
+                <span id="lne" style="display:none" onMouseOut="logclose()" onMouseOver="logmine()">
+                    <span style="background:#fff;">
+                        <a href="mycourse.html" style="width:70px; display:block;" class="link2 he ico" target="_blank">sherley</a>
+                    </span>
+                    <div class="clearh"></div>
+                    <ul class="logmine" >
+                        <li><a class="link1" href="#">我的课程</a></li>
+                        <li><a class="link1" href="#">我的题库</a></li>
+                        <li><a class="link1" href="#">我的问答</a></li>
+                        <li><a class="link1" href="#">退出</a></li>
+                    </ul>
+                </span>
+            </div>-->
+
+        </span>
+    </div>
+</div>
+<!-- InstanceBeginEditable name="EditRegion1" -->
+<div class="coursecont">
+<div class="coursepic">
+	<h3 class="righttit">优质资料分类</h3>
+    <div class="clearh"></div>
+    <div class="bread nob">
+        <a class="fombtn cur" href="javascript:;" style="width:70px;">学段</a>
+        <div style="display: inline;" id="a"></div>
+    </div>
+    <div class="bread nob">
+        <div style="display: inline;" id="zy"></div>
+        <div id="ty" style="display: inline;"></div>
+    </div>
+</div>
+<div class="clearh"></div>
+<div class="coursetext">
+	<div class="articlelist">
+        <div class="clearh"></div>
+    </div>
+
+
+	<div class="clearh" style="height:20px;"></div>
+	<!--<span class="pagejump">
+    	<p class="userpager-list">
+       	   <a href="#" class="page-number">首页</a>
+           <a href="#" class="page-number">上一页</a>
+           <a href="#" class="page-number">1</a>
+            &lt;!&ndash; 选中的那一列 class="page-number pageractive" &ndash;&gt;
+           <a href="#" class="page-number">2</a>
+           <a href="#" class="page-number">3</a>
+            <a href="#" class="page-number">...</a>
+            <a href="#" class="page-number">10</a>
+           <a href="#" class="page-number">下一页</a>
+           <a href="#" class="page-number">末页</a>
+        </p>
+    </span>-->
+    <div class="clearh" style="height:10px;"></div>
+</div>
+
+<div class="courightext">
+<div class="ctext">
+    <div class="cr1">
+    <h3 class="righttit">热门文档</h3>
+	<ul class="hotask"></ul>
+    </div>
+</div>
+
+<div class="ctext">
+    <div class="cr1">
+    <h3 class="righttit">推荐课程</h3>
+    <div class="teacher">
+    <div class="teapic">
+        <a href="#"  target="_blank"><img src="images/c1.jpg" height="60" title="JAVA编程教学"></a>
+        <h3 class="courh3"><a href="#" class="ask_link" target="_blank">JAVA编程教学</a></h3>
+    </div>
+    <div class="clearh"></div>
+    <div class="teapic">
+        <a href="#"  target="_blank"><img src="images/c2.jpg" height="60" title="JAVA开发教学"></a>
+        <h3 class="courh3"><a href="#" class="ask_link" target="_blank">JAVA开发教学</a></h3>
+    </div>
+    <div class="clearh"></div>
+    <div class="teapic">
+        <a href="#"  target="_blank"><img src="images/c3.jpg" height="60" title="玩游戏教学"></a>
+        <h3 class="courh3"><a href="#" class="ask_link" target="_blank">玩游戏教学</a></h3>
+    </div>
+    <div class="clearh"></div>
+    </div>
+    </div>
+</div>
+
+</div>
+
+
+
+<div class="clearh"></div>
+</div>
+<!-- InstanceEndEditable -->
+
+
+<div class="clearh"></div>
+<div class="foot">
+<div class="fcontainer">
+      <div class="fwxwb">
+	       <div class="fwxwb_1">
+		       <span>关注微信</span><img width="95" alt="" src="images/num.png">
+		   </div>
+           <div>
+               <span>关注微博</span><img width="95" alt="" src="images/wb.png">
+		   </div>
+      </div>
+      <div class="fmenu">
+	     <p><a href="#">关于我们</a> | <a href="#">联系我们</a> | <a href="#">优秀讲师</a> | <a href="#">帮助中心</a> | <a href="#">意见反馈</a> | <a href="#">加入我们</a></p>
+      </div>
+      <div class="copyright">
+        <div><a href="/">谋刻网</a>所有&nbsp;晋ICP备12006957号-9</div>
+      </div>
+    </div>
+</div>
+<!--右侧浮动-->
+<div class="rmbar">
+	<span class="barico qq" style="position:relative">
+	<div  class="showqq">
+	   <p>官方客服QQ:<br>335049335</p>
+	</div>
+	</span>
+	<span class="barico em" style="position:relative">
+	  <img src="images/num.png" width="75" class="showem">
+	</span>
+	<span class="barico wb" style="position:relative">
+	  <img src="images/wb.png" width="75" class="showwb">
+	</span>
+	<span class="barico top" id="top">置顶</span>
+</div>
+</body>
+
+<!-- InstanceEnd --></html>

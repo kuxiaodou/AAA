@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>课程添加</title>
+</head>
+            <fieldset >
+                <legend>课程管理 - 新增课程</legend>
+                    <form  id="fm" >
+                        名称：<input type="text" name="name" id="name"/><br/>
+                        课程费用：<input type="text" name="courseFee"/><br/>
+                        出版社：<input type="text" name="courseOverview"/><br/>
+                        课程概况：<input type="text" name="press"/><br/>
+                        图片：<input type="file" name="file"/><br/>
+                        视频：<input type="file" name="files"/><br/>
+                        状态：<input type="text" name="state"/><br/>
+                        <select id="course"  name="prid" id="prid">
+                            <option v-for="item in msg"  :value='item.prid'>{{item.name}}</option>
+                        </select>
+                        <input type="button" value="上传" onclick="test()"/>
+                    </form>
+            </fieldset>
+<script src="../js/vue.min.js"></script>
+<script src="../js/jquery-1.9.1.js"></script>
+<script>
+
+    $(function () {
+        new Vue({
+            el:"#course",
+            data:{
+                msg:[]
+            },
+            created:function () {
+                var selp=this;
+                $.ajax({
+                    url:"http://localhost:8080/infomation/controllerThePrimaryClassification/showAllthePrimaryClassification",
+                    type:"post",
+                    dataType:"json",
+                    success:function(data) {
+                        selp.msg=data
+                    }
+                });
+            }
+        });
+    });
+    function test(){
+        var form = new FormData(document.getElementById("fm"));
+        $.ajax({
+            url:"http://localhost:8080/infomation/controllerCourse/addCourse",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                if(data==true){
+                    alert("上传成功！");
+                    parent.location.href='./course-list.html';
+                }
+            },
+            error:function(e){
+                alert("错误！！");
+            }
+        });
+        get();//此处为上传文件的进度条
+    }
+</script>
+</body>
+</html>

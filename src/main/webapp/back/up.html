@@ -1,0 +1,73 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>进度条测试</title>
+    <script src="../js/jquery-1.9.1.js"></script>
+
+</head>
+<body>
+<div class="input-group">
+    <input type="file" id="attachment" multiple>
+    <span id="progress_bar" style="color: #1AB394;display: table-cell"></span>
+</div>
+<ul id="attachment_list"></ul>
+<button class="btn btn-file">upload file</button>
+
+
+</body>
+<script>
+    $.ajaxSetup({   //laravel中的request要带这个header参数
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.btn-file').click(function(){
+        if($('#attachment').val() == '')
+            alert('请选择文件再上传');
+        else{
+            var path = $('#attachment')[0].files;
+            var formData = new FormData();
+            var names = '';
+
+            for(var i= 0,name;i<path.length;i++){
+                name = $.md5(path[i].name);
+                formData.append(name, path[i]);
+                names += name + ',';
+            }
+            formData.append('info',names);
+            $.ajax({
+                url: "{{route('upload')}}",
+                type: 'POST',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function(){
+                    $('#progress_bar').css('color','#1AB394').show();
+                },
+                success: function(result
+                {
+                $('#progress_bar').html(result.info).css('color','black').fadeOut(3000,function(){$(this).html('')});
+                },
+                error: function (result) {
+
+                },
+                xhr: function(){
+                    var xhr = $.ajaxSettings.xhr();
+                   if(onprogress && xhr.upload) {
+                        xhr.upload.addEventListener("progress" , onprogress, false);
+                        return xhr;
+                   }
+                }
+            });
+
+            function onprogress(evt){
+                console.log(evt);
+                var loaded = evt.loaded;
+                var tot = evt.total;
+                $('#progress_bar').html(Math.floor(100*loaded/tot)+'%');
+            )}
+</script>
+</html>

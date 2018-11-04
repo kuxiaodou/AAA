@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<input type="text" id="singleBirdRemote" style="width: 200px;height: 30px;"/>
+<script>
+    $(function () {
+        alert(1)
+        var websites = [
+            "Google","NetEase", "Sohu", "Sina", "Sogou", "Baidu", "Tencent",
+            "Taobao", "Tom", "Yahoo", "JavaEye", "Csdn", "Alipay","北京"
+        ];
+        $().ready(function() {
+            $("#singleBirdRemote").autocomplete(websites,{
+                minChars:0,     /*minChars表示在自动完成激活之前填入的最小字符，这里我们设置为0，在我们双击文本框，不输入字符的时候，就会把数据显示出来*/
+                max:20,         /*表示列表里的条目数，我们设置了5，所以显示5条*/
+                autoFill:true,  /*表示自动填充，就是在文本框中自动填充符合条件的项目*/
+                mustMatch:true, /*表示必须匹配条目，也就是在文本框里输入的内容，必须是data参数里的数据，如果不匹配，文本框就被清空*/
+                matchContains:true,/*表示包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示，比如在上面的图中，
+                                我们输入了“g”，由于“Sogou”中也包含一个“g”，所以会显示出来，
+                                如果将matchContains设为fasle，则“Sogou”就不会显示*/
+                scrollHeight:220,
+                delay:500,      /*设置多少毫秒显示数据，default:300,type:Integer*/
+                autoFocus:true,/*default:false*/
+                disabled:true,
+                /* position: { my : "right top", at: "right bottom" },*/
+                formatItem: function(data, i, total) {/*格式化条目中的字体*/
+                    return "<I>"+data[0]+"</I>";
+                },
+                formatMatch: function(data, i, total) {
+                    return data[0];
+                },
+                formatResult: function(data) {
+                    return data[0];
+                }
+                /*
+                * formatItem、formatMatch、formatResult非常有用，formatItem作用在于可以格式化列表中的条目，
+                * 比如我们加了“I”，让列表里的字显示出了斜体，formatMatch是配合formatItem使用，作用在于，由于使用了formatItem，
+                * 所以条目中的内容有所改变，而我们要匹配的是原始的数据，所以用formatMatch做一个调整，使之匹配原始数据，
+                * formatResult是定义最终返回的数据，比如我们还是要返回原始数据，而不是formatItem过的数据。
+                * */
+            });
+        });
+        function initAutoComplete(json){
+            $("#tel").autocomplete(json , {
+                minChars:1,
+                width:260,
+                dataType:"json",
+                matchContains: true,
+                formatItem: function(row, i, max) {
+                    return row.tel + " <" + row.name + "> ["+row.cg_name+"]";
+                },
+                formatMatch: function(row, i, max) {
+                    return row.tel;
+                },
+                formatResult: function(row) {
+                    return row.tel;
+                }
+            });
+        }
+        $(document).ready(function(){
+            $("#tel").focus(function(){
+                $.post(url,{},function(data){
+                    initAutoComplete(data);
+                },"json");
+            });
+        });
+    })
+</script>
+</body>
+</html>

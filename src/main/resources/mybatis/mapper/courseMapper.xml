@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aaa.infomation.dao.courseDao">
+    <!--模糊多查询 所有课程-->
+    <select id="showCourse" resultType="Map">
+        SELECT
+        c.coid as ccoid,
+        c.name as cname,
+        c.courseFee as ccourseFee,
+        c.theCumulativePurchase as ctheCumulativePurchase,
+        c.press as cpress,
+        c.courseOverview as ccourseOverview,
+        c.picture as cpicture,
+        c.video as cvideo,
+        c.usid as cusid,
+        c.state as cstate,
+        c.adid as cadid,
+        c.creationTime as ccreationTime,
+        c.updateTime as cupdateTime,
+        c.prid as cprid,
+        a.adid as aadid,
+        a.name as aname,
+        a.password as apassword,
+        a.headPortrait as aheadPortrait,
+        a.position as aposition,
+        a.state as astate,
+        a.creationTime as acreationTime,
+        a.updateTime as aupdateTime,
+        t.prid as tprid,
+        t.name as tname,
+        t.creationTime as tcreationTime,
+        t.updateTime as tupdateTime
+        FROM course c JOIN administrator a on
+        a.adid=c.adid JOIN thePrimaryClassification t
+        on c.prid=t.prid
+        WHERE 1=1
+        <if test="param1 !=null ">
+            and c.coid=#{param1}
+        </if>
+        <if test="param2 !=null and param2 != '' ">
+            and c.name LIKE "%"#{param2}"%"
+        </if>
+        <if test="param3 !=null and param3 != '' ">
+            and c.press=#{param3}
+        </if>
+    </select>
+    <!--根据id修改课程-->
+    <update id="updateCourseByCoid" parameterType="com.aaa.infomation.entity.course">
+        UPDATE course
+        <set>
+            <if test="courseFee != null and courseFee != '' ">
+                courseFee=#{courseFee},
+            </if>
+            <if test="picture != null and picture != '' ">
+                picture=#{picture},
+            </if>
+            <if test="state != null and state != '' ">
+                state=#{state},
+            </if>
+                creationTime=NOW()
+        </set>
+        WHERE coid=#{coid}
+    </update>
+</mapper>

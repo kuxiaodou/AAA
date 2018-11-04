@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
+    <style>
+        .node {
+            cursor: pointer;
+            font-family: monospace;
+            color: #333;
+        }
+
+        .node div:hover {
+            background-color: antiquewhite;
+        }
+
+        .node-leaf {
+            color: #999;
+        }
+
+        ul {
+            padding-left: 1em;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body id="body">
+<tree :data="treeData"></tree>
+</body>
+
+
+<script type="text/x-template" id="tree-node">
+    <li :class="['node',node.children?'':'node-leaf']" v-for="node in data">
+        <div v-if="node.children" @click="node.open = !node.open">[{{node.open?'-':'+'}}] {{node.name}}</div>
+        <div v-else>[-] {{node.name}}</div>
+        <ul v-if="node.children" v-show="node.open">
+            <tree-node :data="node.children"></tree-node>
+        </ul>
+    </li>
+</script>
+
+
+<script>
+    Vue.component('tree', {
+        template: "<ul><tree-node :data='data'></tree-node></ul>",
+        props: ['data'],
+        components: {
+            'tree-node': {
+                name: "tree-node",
+                template: '#tree-node',
+                props: ['data']
+            }
+        }
+    });
+
+    new Vue({
+        el: '#body',
+        data: {
+            treeData: [
+                {open: false, name: 'hello'},
+                {open: false, name: 'wat'},
+                {
+                    open: false,
+                    name: 'child folder',
+                    children: [
+                        {
+                            open: false,
+                            name: 'child folder',
+                            children: [
+                                {open: false, name: 'hello'},
+                                {open: false, name: 'wat'}
+                            ]
+                        },
+                        {open: false, name: 'hello'},
+                        {open: false, name: 'wat'},
+                        {
+                            open: false,
+                            name: 'child folder',
+                            children: [
+                                {open: false, name: 'hello'},
+                                {open: false, name: 'wat'}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    })
+</script>
+</html>

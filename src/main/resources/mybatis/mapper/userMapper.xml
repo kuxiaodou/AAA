@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aaa.infomation.dao.userDao">
+   <!--多条件查询 用户-->
+   <!-- @Select(value = "SELECT u.*,a.name as aname FROM USER u join
+   administrator a on a.adid=u.adid WHERE u.name=#{param1}")-->
+   <select id="showAllUser" resultType="com.aaa.infomation.entity.user">
+     SELECT u.*,a.name as aname FROM USER u join administrator a on a.adid=u.adid
+         WHERE
+         <if test="param1 !=null and param1 !='' ">
+             u.name LIKE "%"#{param1}"%" AND
+         </if>
+         <if test="param2 !=null ">
+             u.position=#{param2} and
+         </if>
+         1=1
+   </select>
+</mapper>

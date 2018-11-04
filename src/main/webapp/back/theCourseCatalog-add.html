@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>课程目录添加</title>
+</head>
+<body>
+    <input type="text" name="name" id="name"/>
+
+    <input type="button" value="提交" id="btn"/>
+  <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="../js/vue.min.js"></script>
+  <script>
+    $('#btn').click(function () {
+        $.ajax({
+           url:'http://localhost:8080/infomation/controllerTheCourseCatalog/addCourseCatalog',
+           type:'post',
+           dataType:'json',
+           data:{"name":$('#name').val()},
+            success:function (data) {
+                if(data!=null){
+                    alert("成功！");
+                    parent.location.href='../back/course-list-info.html?coid='+data;
+                    //"redirect:/back/course-list-info.html?coid="+coids;
+                }else{s
+                    alert("错误！");
+                }
+            }
+        });
+       // parent.location.href='http://localhost:8080/infomation/controllerTheCourseCatalog/addCourseCatalog?name='+$('#name').val();
+    })
+  </script>
+</body>
+</html>

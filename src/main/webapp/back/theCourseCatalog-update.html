@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>修改目录添加</title>
+</head>
+<body>
+<textarea cols="20" rows="5" name="name" id="name"></textarea>
+<input type="button" value="提交" id="btn"/>
+<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script>
+    $(function () {
+        var category=window.location.search;
+        var cateval = category.substring(category.lastIndexOf('=')+1, category.length);//课程主键
+        var catevals = category.substring(category.indexOf('=')+1, category.indexOf('&'));//课程目录主键
+        $.ajax({
+            url:'http://localhost:8080/infomation/controllerTheCourseCatalog/showtheCourseCataloByTcid?tcid='+catevals,
+            type:'post',
+            dataType:'json',
+            success:function (data) {
+                for (i=0;i<data.length;i++){
+                    $('#name').val(data[i].name)
+                }
+            }
+        });
+        $('#btn').click(function () {
+            $.ajax({
+                url:'http://localhost:8080/infomation/controllerTheCourseCatalog/updatetheCourseCataloByTcid',
+                type:'post',
+                dataType:'json',
+                data:{"name":$('#name').val(),"tcid":catevals,"coid":cateval},
+                success:function (data) {
+                    if(data!=null){
+                        alert("成功！");
+                        parent.location.href='../back/course-list-info.html?coid='+data;
+                        //"redirect:/back/course-list-info.html?coid="+coids;
+                    }else{s
+                        alert("错误！");
+                    }
+                }
+            });
+            // parent.location.href='http://localhost:8080/infomation/controllerTheCourseCatalog/addCourseCatalog?name='+$('#name').val();
+        })
+    })
+</script>
+</body>
+</html>

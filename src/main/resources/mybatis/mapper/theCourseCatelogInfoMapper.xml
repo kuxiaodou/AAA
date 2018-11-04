@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aaa.infomation.dao.theCourseCatalogInfoDao">
+   <!--修改课程目录详细-->
+   <update id="updateThecoursecataloginfoByTnid" parameterType="com.aaa.infomation.entity.theCourseCatalogInfo">
+      UPDATE thecoursecataloginfo
+      <set>
+         <if test="tname != null and tname != '' ">
+            tname=#{tname},
+         </if>
+         <if test="tvideo != null and tvideo != ''">
+            tvideo=#{tvideo},
+         </if>
+         <if test="length != null and length != ''">
+            length=#{length},
+         </if>
+         updateTime=NOW()
+      </set>
+      WHERE tnid=#{tnid}
+   </update>
+</mapper>
