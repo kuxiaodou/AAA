@@ -5,11 +5,13 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>谋刻职业教育在线测评与学习平台</title>
 
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/tab.css" media="screen">
+
 <link rel="stylesheet" href="css/article.css">
 <script src="js/jquery-1.8.0.min.js"></script>
 <script src="js/mine.js"></script>
     <!-- 引用vue包 -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
@@ -22,12 +24,26 @@
             type: 'post',
             success: function (data) {
                 if(data!=""){
-                    var sk="<img src='images/zh.jpg' style='position: absolute;top:7px; display: inline-block;width: 70px;height:50px;border:1px solid #f6f6f6;'><span style='position: relative;left:60%;font-size: 17px;text-align: center;'>"+data.name+"</span>";
-                    $(".exambtn_lore").html(sk);
-                    $("#te").val(data.usid);
+                    //var sk="<img src='images/zh.jpg' style='position: absolute;top:7px; display: inline-block;width: 70px;height:50px;border:1px solid #f6f6f6;'><span style='position: relative;left:60%;font-size: 17px;text-align: center;'>"+data.name+"</span>";
+                       var sk="<a href=\"mycourse.html\" onMouseOver=\"logmine()\" style='width:100px;border: 0px solid red;' class=\"link2 he ico\" target=\"_blank\">"+data[0].name+"</a>\n" +
+                           "<span id=\"lne\" style=\"display:none\" onMouseOut=\"logclose()\" onMouseOver=\"logmine()\">\n" +
+                           "<span style=\"background:#fff;\">\n" +
+                           "</span>\n" +
+                           "<div class=\"clearh\"></div>\n" +
+                           "<ul class=\"logmine\" style='border: 0px solid red;margin-top: 30px;margin-left: -15px;' >\n" +
+                           "<li><a class=\"link1\" href=\"#\">我的课程</a></li>\n" +
+                           "<li><a class=\"link1\" href=\"#\">我的题库</a></li>\n" +
+                           "<li><a class=\"link1\" href=\"#\">我的问答</a></li>\n" +
+                           "<li><a class=\"link1\" href=\"#\">退出</a></li>\n" +
+                           "</ul>\n" +
+                           "</span>";
+                    $(".massage").html(sk);
+                   // $("#te").val(data.usid);
                 }else{
-                    $(".exambtn_lore").html("<a class='tkbtn tklog' href='login.html'>登录</a>" +
-                        "<a class='tkbtn tkreg' href='register.html'>注册</a>");
+                    $(".massage").html("<span class=\"exambtn_lore\">\n" +
+                        "<a class=\"tkbtn tklog\" href=\"login.html\">登录</a>\n" +
+                        "<a class=\"tkbtn tkreg\" href=\"register.html\">注册</a>\n" +
+                        "</span>");
                 }
             }});
         $.ajax({
@@ -458,23 +474,28 @@
         });
     }
 </script>
+    <style>
+        .coursepic{
+            margin-top: 80px;
+        }
+    </style>
 </head>
 
 <body>
 <input type="text" style="display: none;" id="te">
 <div class="head" id="fixed">
-	<div class="nav">
-    	<span class="navimg"><a href="index.html"><img border="0" src="images/logo.png"></a></span>
+    <div class="nav">
+        <span class="navimg"><a href="index.html"><img border="0" src="images/logo.png"></a></span>
         <ul class="nag">
-        	<li><a href="courselist.html" class="link1 current">课程</a></li>
+            <li><a href="courselist.html" class="link1">课程</a></li>
             <li><a href="articlelist.html" class="link1">资讯</a></li>
             <li><a href="teacherlist.html" class="link1">讲师</a></li>
             <li><a href="exam_index.html" class="link1" target="_blank">题库</a></li>
             <li><a href="askarea.html" class="link1" target="_blank">问答</a></li>
-
         </ul>
+
         <span class="massage">
-            <!--<span class="select">
+        <!--<span class="select">
         	<a href="#" class="sort">课程</a>
         	<input type="text" value="关键字"/>
             <a href="#" class="sellink"></a>
@@ -484,27 +505,8 @@
                 <p>讲师</p>
             </span>
         </span>-->
-        	<!--未登录-->
-        	<span class="exambtn_lore">
-                 <!--<a class="tkbtn tklog" href="login.html">登录</a>
-                 <a class="tkbtn tkreg" href="register.html">注册</a>-->
-            </span>
-            <!--登录后-->
-            <!--<div class="logined">
-                <a href="mycourse.html"  onMouseOver="logmine()" style="width:70px" class="link2 he ico" target="_blank">sherley</a>
-                <span id="lne" style="display:none" onMouseOut="logclose()" onMouseOver="logmine()">
-                    <span style="background:#fff;">
-                        <a href="mycourse.html" style="width:70px; display:block;" class="link2 he ico" target="_blank">sherley</a>
-                    </span>
-                    <div class="clearh"></div>
-                    <ul class="logmine" >
-                        <li><a class="link1" href="#">我的课程</a></li>
-                        <li><a class="link1" href="#">我的题库</a></li>
-                        <li><a class="link1" href="#">我的问答</a></li>
-                        <li><a class="link1" href="#">退出</a></li>
-                    </ul>
-                </span>
-            </div>-->
+
+
 
         </span>
     </div>

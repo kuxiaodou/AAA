@@ -1,10 +1,8 @@
 package com.aaa.infomation.dao;
 
+import com.aaa.infomation.entity.administrator;
 import com.aaa.infomation.entity.course;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -74,4 +72,23 @@ public interface courseDao {
      */
     @Select("SELECT * FROM course WHERE prid=#{param1}  LIMIT 0,3")
     public List<Map<String,Object>> showCourseByPrid(Integer prid);
+
+    /**
+     * 根据课程外键删除课程
+     * @param coid
+     * @return
+     */
+    @Delete("DELETE FROM course WHERE coid=#{param1}")
+    public int delteCourseByCoid(Integer coid);
+
+    /**
+     * 根据老师 查询老师所教课程
+     * @param adid
+     * @return
+     */
+    @Select("SELECT a.name as aname, a.headPortrait as aheadPortrait ,a.adid as aadid ,t.* ,c.coid as ccoid ,c.name  as cname,c.courseFee,c.  theCumulativePurchase, c.press,c.courseOverview,c.picture,c.video,c.usid,c.state,c.creationTime\n" +
+            "as uscreationTime , c.updateTime as usupdateTime FROM administrator a JOIN teachersinfo t\n" +
+            "on a.adid=t.adid JOIN course c on a.adid=c.adid\n" +
+            "WHERE a.state=1  and a.adid=#{param1}")
+    public List<Map<String,Object>> showTeachersInfoByAdid(Integer adid);
 }

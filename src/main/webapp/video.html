@@ -68,7 +68,9 @@ $(function(){
                 <source src="images/1-1.mp4" type='video/webm' />
                 <source src="images/1-1.mp4" type='video/ogg' />
 			</video>
-			<p class="signp"><span class="sign">学过了</span><span class="nextcourse" title="下一课时">∨</span></p>
+			<p class="signp">
+                <button class="sign" id="jindu" style="border: 0px solid red;">学过了</button>
+                <span class="nextcourse" title="下一课时">∨</span></p>
         </div>       
     </div>    
   <div class="interact">
@@ -181,6 +183,8 @@ $(function(){
           var category=window.location.search;
           var cateval = category.substring(category.indexOf('=')+1, category.indexOf('&'));//课程主键
           var catevals = category.substring(category.indexOf('&')+1, category.length);//课程视频
+          var catevalss = category.substring(category.lastIndexOf('&')+1, category.length);//课程视频
+          $('#jindu').val(catevalss);
           this.Url = 'video/32465635-b760-499b-80c5-f37ebd767b16.mp4';
           $('body').find("#mp4s").attr("src", cateval );
           var cou = "";
@@ -286,6 +290,9 @@ $(function(){
                       }
                   }
               })
+          })
+          $('#jindu').click(function () {
+              alert($('#jindu').val())
           })
       })
   </script>

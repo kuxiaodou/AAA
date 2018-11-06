@@ -71,4 +71,28 @@ public interface theCourseCatalogInfoDao {
     @Select("SELECT c.name,h.length from  course c JOIN theCourseCatalog t on c.coid=t.coid\n" +
             "JOIN theCourseCatalogInfo h on t.tcid=h.tcid WHERE c.coid=#{param1}")
     public List<Map<String,Object>> showThecoursecataloginfoByCoid(Integer coid);
+
+    /**
+     * 根据课程目录 删除课程目录详细
+     * @param tcid
+     * @return
+     */
+    @Delete("DELETE FROM theCourseCatalogInfo WHERE tcid=#{param1}")
+    public int deletetheCourseCatalogInfoByTcid(Integer tcid);
+
+    /**
+     * 查询该课时是否学习过
+     * @param tnid
+     * @return
+     */
+    @Select("SELECT * FROM theCourseCatalogInfo WHERE tnid=#{param1}")
+    public List<Map<String,Object>> showtheCourseCatalogInfoByState(Integer tnid);
+
+    /**
+     * 修改已经学习过的课程
+     * @param tnid
+     * @return
+     */
+    @Select("UPDATE theCourseCatalogInfo SET state=4 WHERE tnid=#{param1}")
+    public int updatetheCourseCatalogInfo(Integer tnid);
 }

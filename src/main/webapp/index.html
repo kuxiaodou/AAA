@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="css/style.css"/>
 <link rel="stylesheet" href="css/tab.css" media="screen">
 <link rel="stylesheet" type="text/css" href="css/main.css" id="main-css">
+	<link rel="stylesheet" href="css/article.css">
 <!--课程选项卡-->
 <script type="text/javascript">
 function nTabs(thisObj,Num){
@@ -43,7 +44,7 @@ function nTabs(thisObj,Num){
         <ul class="nag">
         	<li><a href="courselist.html" class="link1">课程</a></li>
             <li><a href="articlelist.html" class="link1">资讯</a></li>
-            <li><a href="teacher.html" class="link1">讲师</a></li>
+            <li><a href="teacherlist.html" class="link1">讲师</a></li>
             <li><a href="exam_index.html" class="link1" target="_blank">题库</a></li>
             <li><a href="askarea.html" class="link1" target="_blank">问答</a></li>
         </ul>
@@ -62,7 +63,7 @@ function nTabs(thisObj,Num){
        		
             
             
-            <a href="mycourse.html" onMouseOver="logmine()" style="width:70px" class="link2 he ico" target="_blank">sherley</a>
+           <!-- <a href="mycourse.html" onMouseOver="logmine()" style="width:70px" class="link2 he ico" target="_blank">sherley</a>
             <span id="lne" style="display:none" onMouseOut="logclose()" onMouseOver="logmine()">
                 <span style="background:#fff;">
                 	<a href="mycourse.html" style="width:70px; display:block;" class="link2 he ico" target="_blank">sherley</a>
@@ -74,7 +75,7 @@ function nTabs(thisObj,Num){
                     <li><a class="link1" href="#">我的问答</a></li>
                     <li><a class="link1" href="#">退出</a></li>
                 </ul>
-            </span>
+            </span>-->
         </span>
     </div>
 </div>
@@ -243,7 +244,7 @@ function nTabs(thisObj,Num){
 						data-speed="300"
 						data-start="1200"
 						data-easing="easeOutBack">
-						<img src="images-slider/clean.png" alt="">
+						<a style="font-size: 30px;font-family: 华文彩云;color: white;">地方工会尽快形成</a>
 					</div>
 
 					<div class="tp-caption sfr"
@@ -337,8 +338,8 @@ function nTabs(thisObj,Num){
 					</div>
 				</li>
 
-				
-			   
+
+
 			</ul>
 		</div>
 </div>
@@ -485,6 +486,37 @@ function nTabs(thisObj,Num){
 </body>
 </html>
 <script>
+	$(function () {
+        $.ajax({
+            url: 'controllerUser/logins',
+            cache:false,
+            async:false,
+            type: 'post',
+            success: function (data) {
+                if(data!=""){
+                    //var sk="<img src='images/zh.jpg' style='position: absolute;top:7px; display: inline-block;width: 70px;height:50px;border:1px solid #f6f6f6;'><span style='position: relative;left:60%;font-size: 17px;text-align: center;'>"+data.name+"</span>";
+                    var sk="<a href=\"mycourse.html\" onMouseOver=\"logmine()\" style='width:100px;border: 0px solid red;' class=\"link2 he ico\" target=\"_blank\">"+data[0].name+"</a>\n" +
+                        "<span id=\"lne\" style=\"display:none\" onMouseOut=\"logclose()\" onMouseOver=\"logmine()\">\n" +
+                        "<span style=\"background:#fff;\">\n" +
+                        "</span>\n" +
+                        "<div class=\"clearh\"></div>\n" +
+                        "<ul class=\"logmine\" style='border: 0px solid red;margin-top: 30px;margin-left: -15px;' >\n" +
+                        "<li><a class=\"link1\" href=\"#\">我的课程</a></li>\n" +
+                        "<li><a class=\"link1\" href=\"#\">我的题库</a></li>\n" +
+                        "<li><a class=\"link1\" href=\"#\">我的问答</a></li>\n" +
+                        "<li><a class=\"link1\" href=\"#\">退出</a></li>\n" +
+                        "</ul>\n" +
+                        "</span>";
+                    $(".massage").html(sk);
+                    // $("#te").val(data.usid);
+                }else{
+                    $(".massage").html("<span class=\"exambtn_lore\">\n" +
+                        "<a class=\"tkbtn tklog\" href=\"login.html\">登录</a>\n" +
+                        "<a class=\"tkbtn tkreg\" href=\"register.html\">注册</a>\n" +
+                        "</span>");
+                }
+            }});
+    })
 function logmine(){
 	document.getElementById("lne").style.display="block";
 }

@@ -562,7 +562,7 @@
                         data: {"tcid": data[i].tcid},
                         success: function (datas) {
                             for (var j = 0; j < datas.length; j++) {
-                                cous += "<dd class='smalltitle'><strong><a href='video.html?="+datas[j].tvideo+"&"+cateval+"'>" + datas[j].tname + "</a></strong></dd>";
+                                cous += "<dd class='smalltitle'><strong><a href='video.html?="+datas[j].tvideo+"&"+cateval+"&"+datas[j].tnid+"'>" + datas[j].tname + "</a></strong></dd>";
                             }
                             $("." + ins).html(cous);
                             cous = "";

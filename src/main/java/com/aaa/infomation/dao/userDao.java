@@ -1,6 +1,7 @@
 package com.aaa.infomation.dao;
 
 import com.aaa.infomation.entity.user;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -40,4 +41,12 @@ public interface userDao {
      */
     @Select(value = "SELECT * FROM USER where name=#{param1} and password=#{param2}")
     public List<user> login(String name, String password);
+
+    /**
+     * 用户注册
+     * @param u
+     * @return
+     */
+    @Insert("insert into `user`(name,phone,email,password,position,state,creationTime,updateTime) values(#{name},#{phone},#{email},md5(#{password}),1,1,NOW(),NOW())")
+    public int addUser(user u);
 }

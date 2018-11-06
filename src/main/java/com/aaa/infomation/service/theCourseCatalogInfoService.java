@@ -2,6 +2,7 @@ package com.aaa.infomation.service;
 
 import com.aaa.infomation.dao.theCourseCatalogInfoDao;
 import com.aaa.infomation.entity.theCourseCatalogInfo;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,5 +76,30 @@ public class theCourseCatalogInfoService {
      */
     public List<Map<String,Object>> showThecoursecataloginfoByCoid(Integer coid){
         return thecoursecataloginfodao.showThecoursecataloginfoByCoid(coid);
+    }
+    /**
+     * 根据课程目录 删除课程目录详细
+     * @param tcid
+     * @return
+     */
+    public int deletetheCourseCatalogInfoByTcid(Integer tcid){
+        return thecoursecataloginfodao.deletetheCourseCatalogInfoByTcid(tcid);
+    }
+    /**
+     * 查询该课时是否学习过
+     * @param tnid
+     * @return
+     */
+    public List<Map<String,Object>> showtheCourseCatalogInfoByState(Integer tnid){
+        return thecoursecataloginfodao.showtheCourseCatalogInfoByState(tnid);
+    }
+
+    /**
+     * 修改已经学习过的课程
+     * @param tnid
+     * @return
+     */
+    public int updatetheCourseCatalogInfo(Integer tnid){
+        return thecoursecataloginfodao.updatetheCourseCatalogInfo(tnid);
     }
 }

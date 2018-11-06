@@ -49,4 +49,13 @@ public class userService {
     public List<user> login(String name, String password){
         return userdao.login(name,password);
     }
+
+    /**
+     * 用户注册
+     * @param u
+     * @return
+     */
+    public int addUser(user u){
+        return userdao.addUser(u);
+    }
 }

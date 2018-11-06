@@ -132,6 +132,13 @@
             <version>1.8.0</version>
         </dependency>
         <!--json-->
+        <!--发手机号-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <!--发手机号-->
     </dependencies>
 
     <build>

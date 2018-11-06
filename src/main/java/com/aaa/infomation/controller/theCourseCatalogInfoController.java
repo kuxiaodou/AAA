@@ -122,4 +122,5 @@ public class theCourseCatalogInfoController {
     List<Map<String,Object>> showThecoursecataloginfoByCoid(Integer coid){
         return thecoursecataloginfoservice.showThecoursecataloginfoByCoid(coid);
     }
+
 }

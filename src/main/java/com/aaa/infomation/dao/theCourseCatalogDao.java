@@ -1,5 +1,6 @@
 package com.aaa.infomation.dao;
 
+import com.aaa.infomation.entity.course;
 import com.aaa.infomation.entity.theCourseCatalog;
 import org.apache.ibatis.annotations.*;
 
@@ -59,4 +60,20 @@ public interface theCourseCatalogDao {
      */
     @Select("SELECT * FROM theCourseCatalog WHERE tcid=#{param1} ")
     public List<Map<String,Object>> showtheCourseCataloByTcid(Integer tcid);
+
+    /**
+     * 根据课程主键  查询课程目录
+     * @param coid
+     * @return
+     */
+    @Select("SELECT tcid FROM theCourseCatalog WHERE coid=#{param1}")
+    public List<theCourseCatalog> selecttheCourseCatalogCoid(Integer coid);
+
+    /**
+     * 根据课程主键  删除课程目录
+     * @param coid
+     * @return
+     */
+    @Delete("DELETE FROM theCourseCatalog WHERE coid=#{param1}")
+    public int deletetheCourseCatalogByCoid(Integer coid);
 }

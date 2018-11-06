@@ -4,6 +4,7 @@ import com.aaa.infomation.entity.iOfCourse;
 import com.aaa.infomation.entity.user;
 import com.aaa.infomation.service.iOfCourseService;
 import com.aaa.infomation.service.userService;
+import com.aaa.infomation.util.SmsVerification;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class userController {
     private userService userservice;
     @Resource
     public iOfCourseService iofcourseservice;
+    SmsVerification sm;
     /**
      * 查询全部用户
      * @param page
@@ -79,16 +81,15 @@ public class userController {
      * @return
      */
     @RequestMapping("login")
-    public String login(String names, String password, HttpServletRequest request){
+    public @ResponseBody
+    boolean login(String names, String password, HttpServletRequest request){
         List<user> list=userservice.login(names,password);
         HttpSession session=request.getSession();
-        session.setAttribute("usid",list.get(0).getUsid());
-        session.setAttribute("name",list.get(0).getName());
-        System.out.println(list.get(0).getUsid());
         if(list.size()>0){
-            return "redirect:/articlelist.html";
+            session.setAttribute("userlogin",list);
+            return true;
         }else{
-            return "redirect:/index.html";
+            return false;
         }
     }
     /**
@@ -97,18 +98,10 @@ public class userController {
      */
     @RequestMapping("logins")
     @ResponseBody
-    public Map<String,Object> logins(HttpServletRequest request){
+    public List<user> logins(HttpServletRequest request){
         HttpSession session=request.getSession();
-        if(session.getAttribute("usid")!=null && session.getAttribute("name")!=null){
-            Integer usid=Integer.parseInt(session.getAttribute("usid").toString());
-            String name=session.getAttribute("name").toString();
-            Map<String,Object> list=new HashMap<>();
-            list.put("usid",usid);
-            list.put("name",name);
-            return list;
-        }else{
-            return null;
-        }
+        List<user> lsit=(List<user>) session.getAttribute("userlogin");
+        return lsit;
     }
 
     /**
@@ -133,5 +126,22 @@ public class userController {
             e.printStackTrace();
         }
         return 0;
+    }
+    @RequestMapping("phone")
+    @ResponseBody
+    public int phone(String phone){
+        System.out.println(phone);
+        return sm.getVerificationCode(phone);
+    }
+
+    @RequestMapping("addUser")
+    public @ResponseBody
+    boolean addUser(user u){
+        int rs = userservice.addUser(u);
+        if(rs>0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

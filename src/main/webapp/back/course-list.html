@@ -165,7 +165,7 @@
                             class="ml-5" style="text-decoration:none">
                                 <i class="layui-icon">&#xe642;</i>
                             </a>
-                            <a title="删除" href="javascript:;" onclick="banner_del(this,'1')"
+                            <a title="删除" href="javascript:;" @click="getIndexDel(value.ccoid)"
                             style="text-decoration:none">
                                 <i class="layui-icon">&#xe640;</i>
                             </a>
@@ -247,6 +247,24 @@
                                     success:function(data) {
                                         if(data==true){
                                             layer.msg('已销售!',{
+                                                icon: 1,time:1000
+                                            });
+                                            window.setTimeout("window.location.href='./course-list.html'",1000);
+                                        }
+                                    }
+                                });
+                            });
+                        },
+                        getIndexDel(index){
+                            layer.confirm('确认删除吗？',function(){
+                                $.ajax({
+                                    url:"http://localhost:8080/infomation/controllerCourse/deleteCourseByCoid",
+                                    type:"post",
+                                    data:{"coid":index},
+                                    dataType:"json",
+                                    success:function(data) {
+                                        if(data==true){
+                                            layer.msg('已删除!',{
                                                 icon: 1,time:1000
                                             });
                                             window.setTimeout("window.location.href='./course-list.html'",1000);

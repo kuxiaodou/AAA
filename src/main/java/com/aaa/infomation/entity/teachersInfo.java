@@ -20,6 +20,7 @@ public class teachersInfo {
     private Integer adid;
     private Date creationTime;
     private Date updateTime;
+    private String style;
 
     public Integer getTeid() {
         return teid;
@@ -133,6 +134,14 @@ public class teachersInfo {
         this.updateTime = updateTime;
     }
 
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
     @Override
     public String toString() {
         return "teachersInfo{" +
@@ -150,6 +159,7 @@ public class teachersInfo {
                 ", adid=" + adid +
                 ", creationTime=" + creationTime +
                 ", updateTime=" + updateTime +
+                ", style='" + style + '\'' +
                 '}';
     }
 }
