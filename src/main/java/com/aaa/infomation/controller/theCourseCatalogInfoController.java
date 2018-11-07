@@ -122,5 +122,33 @@ public class theCourseCatalogInfoController {
     List<Map<String,Object>> showThecoursecataloginfoByCoid(Integer coid){
         return thecoursecataloginfoservice.showThecoursecataloginfoByCoid(coid);
     }
+    /**
+     * 查询该课时是否学习过
+     * @param tnid
+     * @return
+     */
+     @RequestMapping("showtheCourseCatalogInfoByState")
+     public @ResponseBody
+     boolean showtheCourseCatalogInfoByState(Integer tnid){
+        return thecoursecataloginfoservice.showtheCourseCatalogInfoByState(tnid);
+    }
 
+    /**
+     * 修改已经学习过的课程
+     * @param tnid
+     * @return
+     */
+     @RequestMapping("updatetheCourseCatalogInfo")
+     public @ResponseBody
+     boolean updatetheCourseCatalogInfo(Integer tnid){
+        return thecoursecataloginfoservice.updatetheCourseCatalogInfo(tnid);
+    }
+    /**
+     * 取消已经学习过的课程
+     * @param tnid
+     * @return
+     */
+    public boolean updatetheCourseCatalogInfoBytnid(Integer tnid){
+        return thecoursecataloginfoservice.updatetheCourseCatalogInfoBytnid(tnid);
+    }
 }

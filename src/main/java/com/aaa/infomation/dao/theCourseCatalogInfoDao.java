@@ -95,4 +95,12 @@ public interface theCourseCatalogInfoDao {
      */
     @Select("UPDATE theCourseCatalogInfo SET state=4 WHERE tnid=#{param1}")
     public int updatetheCourseCatalogInfo(Integer tnid);
+
+    /**
+     * 取消已经学习过的课程
+     * @param tnid
+     * @return
+     */
+    @Select("UPDATE theCourseCatalogInfo SET state=3 WHERE tnid=#{param1}")
+    public int updatetheCourseCatalogInfoBytnid(Integer tnid);
 }

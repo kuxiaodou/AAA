@@ -90,8 +90,11 @@ public class theCourseCatalogInfoService {
      * @param tnid
      * @return
      */
-    public List<Map<String,Object>> showtheCourseCatalogInfoByState(Integer tnid){
-        return thecoursecataloginfodao.showtheCourseCatalogInfoByState(tnid);
+    public boolean showtheCourseCatalogInfoByState(Integer tnid){
+        if(thecoursecataloginfodao.showtheCourseCatalogInfoByState(tnid).get(0).get("state").equals(4)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -99,7 +102,21 @@ public class theCourseCatalogInfoService {
      * @param tnid
      * @return
      */
-    public int updatetheCourseCatalogInfo(Integer tnid){
-        return thecoursecataloginfodao.updatetheCourseCatalogInfo(tnid);
+    public boolean updatetheCourseCatalogInfo(Integer tnid){
+        if(thecoursecataloginfodao.updatetheCourseCatalogInfo(tnid)>0){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 取消已经学习过的课程
+     * @param tnid
+     * @return
+     */
+    public boolean updatetheCourseCatalogInfoBytnid(Integer tnid){
+        if(thecoursecataloginfodao.updatetheCourseCatalogInfoBytnid(tnid)>0){
+            return true;
+        }
+        return false;
     }
 }

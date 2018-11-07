@@ -68,10 +68,19 @@ $(function(){
                 <source src="images/1-1.mp4" type='video/webm' />
                 <source src="images/1-1.mp4" type='video/ogg' />
 			</video>
-			<p class="signp">
-                <button class="sign" id="jindu" style="border: 0px solid red;">学过了</button>
-                <span class="nextcourse" title="下一课时">∨</span></p>
-        </div>       
+			<p class="signp" id="signpa">
+                <button class="sign" id="jindu" style="border: 0px solid red;" >
+                    已学完
+                </button>
+                <span class="nextcourse" title="下一课时">∨</span>
+            </p>
+            <p class="signp" id="signpb">
+                <button  id="jindus" style="border: 0px solid red;color: #fff;padding: 3px 10px;padding-left: 40px;border-radius: 3px; background:url(images/ico_detail_item.png) no-repeat 15px -1247px #3eb0e0;cursor: pointer;" >
+                    该课程已经学完
+                </button>
+                <span class="nextcourse" title="下一课时">∨</span>
+            </p>
+        </div>
     </div>    
   <div class="interact">
    		<span class="ii" title="展开或收起">></span>
@@ -187,6 +196,24 @@ $(function(){
           $('#jindu').val(catevalss);
           this.Url = 'video/32465635-b760-499b-80c5-f37ebd767b16.mp4';
           $('body').find("#mp4s").attr("src", cateval );
+          //signpa 点击学完
+          //signpb 已经学完
+          $.ajax({
+              url:'controllerTheCourseCatalogInfo/showtheCourseCatalogInfoByState',
+              type:'post',
+              data:{"tnid":$('#jindu').val()},
+              dataType:'json',
+              success:function (data) {
+                  alert(data)
+                  if(data==false){
+                      $('#signpa').show();
+                      $('#signpb').hide();
+                  }else{
+                      $('#signpb').show();
+                      $('#signpa').hide();
+                  }
+              }
+          })
           var cou = "";
           var cous = "";
           var ins =0;
@@ -195,6 +222,7 @@ $(function(){
           var xg="";
           var prid="";
           var facontext="";
+          var signpconetxt="";
           $.ajax({
               url: "controllerTheCourseCatalog/showtheCourseCataloByCoid?coid=" + catevals,
               type: "post",
@@ -292,7 +320,18 @@ $(function(){
               })
           })
           $('#jindu').click(function () {
-              alert($('#jindu').val())
+              alert(1)
+              $.ajax({
+                  url:'controllerTheCourseCatalogInfo/updatetheCourseCatalogInfo',
+                  type:'post',
+                  data:{"tnid":$('#jindu').val()},
+                  dataType:'json',
+                  success:function (data) {
+                      alert(data)
+                      $('#signpb').show();
+                      $('#signpa').hide();
+                  }
+              })
           })
       })
   </script>
