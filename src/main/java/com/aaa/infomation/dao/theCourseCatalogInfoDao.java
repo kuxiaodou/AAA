@@ -68,7 +68,7 @@ public interface theCourseCatalogInfoDao {
      * @param coid
      * @return
      */
-    @Select("SELECT c.name,h.length from  course c JOIN theCourseCatalog t on c.coid=t.coid\n" +
+    @Select("SELECT c.name,h.length,h.tnid from  course c JOIN theCourseCatalog t on c.coid=t.coid\n" +
             "JOIN theCourseCatalogInfo h on t.tcid=h.tcid WHERE c.coid=#{param1}")
     public List<Map<String,Object>> showThecoursecataloginfoByCoid(Integer coid);
 

@@ -2,10 +2,16 @@ package com.aaa.infomation.service;
 
 import com.aaa.infomation.dao.iOfCourseDao;
 import com.aaa.infomation.entity.iOfCourse;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * 我的课程表 Service
+ */
 @Service
 public class iOfCourseService {
     @Resource
@@ -18,5 +24,16 @@ public class iOfCourseService {
      */
     public int addOfCourse(iOfCourse o){
         return  iofCoursedao.addOfCourse(o);
+    }
+    /**
+     * 查询我的课程
+     * @param usid
+     * @return
+     */
+    public List<Map<String,Object>> showOfCourseByUsid(Integer usid){
+        if(iofCoursedao.showOfCourseByUsid(usid).size()>0){
+            return  iofCoursedao.showOfCourseByUsid(usid);
+        }
+        return null;
     }
 }

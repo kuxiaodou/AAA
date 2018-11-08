@@ -92,7 +92,7 @@ public class theCourseCatalogInfoController {
             try {
                 String upl = request.getSession().getServletContext().getRealPath("/") + "video/";
                 File dir = new File(upl);
-                String name = file.getOriginalFilename();
+              //String name = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString() + ".mp4";
                 tc.setTvideo("video/" + uuid);
                 tc.setTname(t.getTname());
@@ -102,11 +102,9 @@ public class theCourseCatalogInfoController {
                 file.transferTo(ser);
 
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
             if (thecoursecataloginfoservice.updateThecoursecataloginfoByTnid(tc) > 0) {
-                System.out.println(tc);
                 return coid;
             } else {
                 return coid;

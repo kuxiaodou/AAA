@@ -116,39 +116,9 @@
             <div class="tab_box">
                 <div>
                     <ul class="memb_course">
+                        <span id="yixueguo">
 
-                        <li>
-                            <div class="courseli">
-                                <a href="video.html" target="_blank"><img width="230" src="images/c8.jpg"></a>
-                                <p class="memb_courname"><a href="video.html" class="blacklink">会计基础</a></p>
-                                <div class="mpp">
-                                    <div class="lv" style="width:90%;"></div>
-                                </div>
-                                <p class="goon"><a href="video.html"><span>继续学习</span></a></p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="courseli">
-                                <a href="video.html" target="_blank"><img width="230" src="images/c8.jpg"></a>
-                                <p class="memb_courname"><a href="video.html" class="blacklink">会计基础</a></p>
-                                <div class="mpp">
-                                    <div class="lv" style="width:20%;"></div>
-                                </div>
-                                <p class="goon"><a href="video.html"><span>继续学习</span></a></p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="courseli">
-                                <a href="video.html" target="_blank"><img width="230" src="images/c8.jpg"></a>
-                                <p class="memb_courname"><a href="video.html" class="blacklink">会计基础</a></p>
-                                <div class="mpp">
-                                    <div class="lv" style="width:20%;"></div>
-                                </div>
-                                <p class="goon"><a href="video.html"><span>继续学习</span></a></p>
-                            </div>
-                        </li>
-
-
+                        </span>
                         <div style="height:10px;" class="clearfix"></div>
                     </ul>
 
@@ -167,17 +137,6 @@
                                     <p class="goon"><a href="coursecont.html"><span>查看课程</span></a></p>
                                 </div>
                             </li>
-                            <li>
-                                <div class="courseli">
-                                    <a href="video.html" target="_blank"><img width="230" src="images/c8.jpg"></a>
-                                    <p class="memb_courname"><a href="coursecont.html" class="blacklink">会计基础</a></p>
-                                    <div class="mpp">
-                                        <div class="lv" style="width:100%;"></div>
-                                    </div>
-                                    <p class="goon"><a href="coursecont.html"><span>查看课程</span></a></p>
-                                </div>
-                            </li>
-
 
                             <div class="clearfix" style="height:10px;"></div>
                         </ul>
@@ -262,6 +221,31 @@
 	</span>
     <span class="barico top" id="top">置顶</span>
 </div>
+<script>
+    $(function () {
+        var xuexizhong="";
+        $.ajax({
+            url:'controlleriOfCourse/showOfCourseByUsid',
+            type:'post',
+            dataType:'json',
+            success:function (data) {
+                for(var i=0;i<data.length;i++){
+                    xuexizhong+=" <li>\n" +
+                        "<div class=\"courseli\">\n" +
+                        "<a href=\"video.html\" target=\"_blank\"><img width=\"230\" src=\"images/c8.jpg\"></a>\n" +
+                        "<p class=\"memb_courname\"><a href=\"video.html\" class=\"blacklink\">会计基础</a></p>\n" +
+                        "<div class=\"mpp\">\n" +
+                        "<div class=\"lv\" style=\"width:90%;\"></div>\n" +
+                        "</div>\n" +
+                        "<p class=\"goon\"><a href=\"video.html\"><span>继续学习</span></a></p>\n" +
+                        "</div>\n" +
+                        "</li>";
+                }
+                $('#yixueguo').html(xuexizhong);
+            }
+        })
+    })
+</script>
 </body>
 
 <!-- InstanceEnd --></html>
