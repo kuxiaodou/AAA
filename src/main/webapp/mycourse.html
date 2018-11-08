@@ -232,10 +232,10 @@
                 for(var i=0;i<data.length;i++){
                     xuexizhong+=" <li>\n" +
                         "<div class=\"courseli\">\n" +
-                        "<a href=\"video.html\" target=\"_blank\"><img width=\"230\" src=\"images/c8.jpg\"></a>\n" +
-                        "<p class=\"memb_courname\"><a href=\"video.html\" class=\"blacklink\">会计基础</a></p>\n" +
+                        "<a href='coursecont1.html?coid="+data[i].coid+"' target=\"_blank\"><img width=\"230\" src='"+data[i].picture+"'></a>\n" +
+                        "<p class=\"memb_courname\"><a href='coursecont1.html?coid="+data[i].coid+"' class=\"blacklink\">"+data[i].name+"</a></p>\n" +
                         "<div class=\"mpp\">\n" +
-                        "<div class=\"lv\" style=\"width:90%;\"></div>\n" +
+                        "<div class=\"lv\" style='width:"+data[i].theProgressof+"%;'></div>\n" +
                         "</div>\n" +
                         "<p class=\"goon\"><a href=\"video.html\"><span>继续学习</span></a></p>\n" +
                         "</div>\n" +

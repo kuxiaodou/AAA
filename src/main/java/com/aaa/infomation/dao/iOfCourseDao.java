@@ -32,4 +32,13 @@ public interface iOfCourseDao {
      @Select("SELECT i.ioid,i.usid  as ausid, i.theProgressof, c.* FROM iOfCourse i\n" +
              "JOIN course c on i.coid=c.coid WHERE i.usid=#{param1}")
      public List<Map<String,Object>> showOfCourseByUsid(Integer usid);
+
+    /**
+     * 加入课程是否重复
+     * @param usid
+     * @param coid
+     * @return
+     */
+     @Select("SELECT * FROM iofcourse WHERE coid=#{param1} AND usid=#{param2}")
+     public List<Map<String,Object>> showOfCourseByUsidAndCoid(Integer coid,Integer usid);
 }

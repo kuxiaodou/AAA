@@ -19,20 +19,37 @@ public class iOfCourseService {
 
     /**
      * 添加学习课程
+     *
      * @param o
      * @return
      */
-    public int addOfCourse(iOfCourse o){
-        return  iofCoursedao.addOfCourse(o);
+    public int addOfCourse(iOfCourse o) {
+        return iofCoursedao.addOfCourse(o);
     }
+
     /**
      * 查询我的课程
+     *
      * @param usid
      * @return
      */
-    public List<Map<String,Object>> showOfCourseByUsid(Integer usid){
-        if(iofCoursedao.showOfCourseByUsid(usid).size()>0){
-            return  iofCoursedao.showOfCourseByUsid(usid);
+    public List<Map<String, Object>> showOfCourseByUsid(Integer usid) {
+        if (iofCoursedao.showOfCourseByUsid(usid).size() > 0) {
+            return iofCoursedao.showOfCourseByUsid(usid);
+        }
+        return null;
+    }
+
+    /**
+     * 加入课程是否重复
+     *
+     * @param usid
+     * @param coid
+     * @return
+     */
+    public List<Map<String, Object>> showOfCourseByUsidAndCoid(Integer usid, Integer coid) {
+        if (iofCoursedao.showOfCourseByUsidAndCoid(usid, coid).size() > 0) {
+            return iofCoursedao.showOfCourseByUsidAndCoid(usid, coid);
         }
         return null;
     }

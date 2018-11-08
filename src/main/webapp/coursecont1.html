@@ -128,7 +128,7 @@
                                                                             id="shichang"></span></p></span>
         </div>
         <div class="course_xq2"><!-- href="video.html"-->
-            <a class="course_learn" href="#" @click="getIndex(1)">开始学习</a>
+            <a class="course_learn" href="#" @click="getIndex(msg[0].coid)">立即加入学习目标</a>
         </div>
         <div class="clearh"></div>
     </div>
@@ -476,6 +476,9 @@
                             }
                             if (data == 1){
                                 alert("加入成功！")
+                            }
+                            if (data == 3){
+                                alert("该课程已经加入了！")
                             }
                         }
                     })

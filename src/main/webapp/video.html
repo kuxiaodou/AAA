@@ -55,11 +55,28 @@ $(function(){
 			::-webkit-scrollbar-thumb:window-inactive {
 				background: rgba(255,0,0,0.4);
 			}
+            .linevideo{
+                  width:  630px;
+            }
+            .interact{
+                  width:  600px;
+                  right:0px ;
+            }
+            element.style {
+                  overflow-x: hidden;
+                  width: 300px;
+            }
+            .vjs-poster{
+                margin-left: 100px;
+            }
+            #video{
+                margin-left: 0px;
+            }
       </style>
 </head>
 
 <body>
-   <div class="linevideo" style="overflow-x:hidden">
+   <div class="linevideo" style="overflow-x:hidden;overflow-x: hidden;width: 630px;">
     	<span class="returnindex"><a class="gray" href="coursecont1.html" style="font-size:14px;">返回课程</a></span>   
         <span class="taskspan"><span class="ts">课时100</span>&nbsp;&nbsp;<b class="tasktit">会计的概念与目标1</b></span> 
         <div style="width:100%;margin-top:20px;" id="video">
@@ -69,17 +86,17 @@ $(function(){
                 <source src="images/1-1.mp4" type='video/ogg' />
 			</video>
 			<p class="signp" id="signpa">
-                <button class="sign" id="jindu" style="border: 0px solid red;" >
+                <button class="sign" id="jindu" style="border: 0px solid red;padding: 6px 36px;" >
                     已学完
                 </button>
-                <span class="nextcourse" title="下一课时">∨</span>
+                <!--<span class="nextcourse" title="下一课时">∨</span>-->
             </p>
-            <p class="signp" id="signpb">
-                <button  id="jindus" style="border: 0px solid red;color: #fff;padding: 3px 10px;padding-left: 40px;border-radius: 3px; background:url(images/ico_detail_item.png) no-repeat 15px -1247px #3eb0e0;cursor: pointer;" >
+            <!--<p class="signp" id="signpb">
+                <button  id="jindus" style="height: 30px;border: 0px solid red;color: #fff;padding: 3px 10px;padding-left: 40px;border-radius: 3px; background:url(images/ico_detail_item.png) no-repeat 15px -1247px #3eb0e0;cursor: pointer;" >
                     该课程已经学完
                 </button>
-                <span class="nextcourse" title="下一课时">∨</span>
-            </p>
+                &lt;!&ndash;<span class="nextcourse" title="下一课时">∨</span>&ndash;&gt;
+            </p>-->
         </div>
     </div>    
   <div class="interact">
@@ -193,12 +210,13 @@ $(function(){
           var cateval = category.substring(category.indexOf('=')+1, category.indexOf('&'));//课程主键
           var catevals = category.substring(category.indexOf('&')+1, category.length);//课程视频
           var catevalss = category.substring(category.lastIndexOf('&')+1, category.length);//课程视频
+          var catevalsss = category.substring(category.indexOf('&')+1,category.lastIndexOf('&'));//课程视频
           $('#jindu').val(catevalss);
           this.Url = 'video/32465635-b760-499b-80c5-f37ebd767b16.mp4';
           $('body').find("#mp4s").attr("src", cateval );
           //signpa 点击学完
           //signpb 已经学完
-          $.ajax({
+          /*$.ajax({
               url:'controllerTheCourseCatalogInfo/showtheCourseCatalogInfoByState',
               type:'post',
               data:{"tnid":$('#jindu').val()},
@@ -213,7 +231,7 @@ $(function(){
                       $('#signpa').hide();
                   }
               }
-          })
+          })*/
           var cou = "";
           var cous = "";
           var ins =0;
@@ -288,12 +306,14 @@ $(function(){
                   }
               })
           $('.fombtn').click(function () {
+              alert(catevalsss)
               $.ajax({
                   url:'controllerCourseqa/addCourseqa',
                   type:'post',
                   dataType:'json',
-                  data:{"coid":catevals,"title":$('#pltitle').val(),"context":$('#plcontext').val()},
+                  data:{"coid":catevalsss,"title":$('#pltitle').val(),"context":$('#plcontext').val()},
                   success:function (data) {
+                      alert(data)
                       if(data==true){
                           alert("发表成功！")
                           facontext="";
@@ -320,7 +340,7 @@ $(function(){
               })
           })
           $('#jindu').click(function () {
-              alert(1)
+              alert($('#jindu').val())
               $.ajax({
                   url:'controllerTheCourseCatalogInfo/updatetheCourseCatalogInfo',
                   type:'post',
@@ -328,8 +348,6 @@ $(function(){
                   dataType:'json',
                   success:function (data) {
                       alert(data)
-                      $('#signpb').show();
-                      $('#signpa').hide();
                   }
               })
           })

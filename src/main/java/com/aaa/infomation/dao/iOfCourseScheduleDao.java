@@ -17,7 +17,6 @@ public interface iOfCourseScheduleDao {
      * 添加学习课程
      * @param usid
      * @param tnid
-     * @param state
      * @return
      */
     @Insert("INSERT INTO iofcourseschedule(usid,tnid,state) VALUES(#{param1},#{param2},0)")

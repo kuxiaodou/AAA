@@ -30,7 +30,7 @@ public interface theCourseCatalogInfoDao {
      * @param tc
      * @return
      */
-    @Insert("INSERT INTO  thecoursecataloginfo(tname,tvideo,tcid,creationTime,updateTime,length) VALUES(#{tname},#{tvideo},#{tcid},NOW(),NOW(),#{length})")
+    @Insert("INSERT INTO  thecoursecataloginfo(tname,tvideo,tcid,state,creationTime,updateTime,length) VALUES(#{tname},#{tvideo},#{tcid},3,NOW(),NOW(),#{length})")
     public int addCourseCatalogInfo(theCourseCatalogInfo tc);
 
     /**

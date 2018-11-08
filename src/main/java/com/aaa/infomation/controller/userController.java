@@ -133,21 +133,25 @@ public class userController {
             HttpSession session = request.getSession();
             List<user> lsit = (List<user>) session.getAttribute("userlogin");
             List<Map<String, Object>> listCourseInfo = thecoursecataloginfoservice.showThecoursecataloginfoByCoid(o.getCoid());
-            System.out.println(lsit);
-            System.out.println(listCourseInfo);
             if (null != lsit && lsit.size() > 0 && null != listCourseInfo && listCourseInfo.size() > 0) {
                 o.setUsid(lsit.get(0).getUsid());
-                for (int i = 0; i < listCourseInfo.size(); i++) {
-                    if (iofcoursescheduleservice.addIOfCourseSchedule((Integer)listCourseInfo.get(i).get("tnid"), o.getCoid())) {
-                        num = 1;
+                System.out.println(iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid()));
+                if (iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid()) == null && null == iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid())) {
+                    for (int i = 0; i < listCourseInfo.size(); i++) {
+                        if (iofcoursescheduleservice.addIOfCourseSchedule(lsit.get(0).getUsid(),(Integer) listCourseInfo.get(i).get("tnid"))) {
+                            num = 1;
+                        } else {
+                            num = 0;
+                        }
+                    }
+                    if (iofcourseservice.addOfCourse(o) > 0 && num > 0) {
+                        return 1;
                     } else {
-                        num = 0;
+                        return 2;
                     }
                 }
-                if (iofcourseservice.addOfCourse(o) > 0 && num > 0) {
-                    return 1;
-                } else {
-                    return 2;
+                if (iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid()).size() > 0 && iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid()) != null && null != iofcourseservice.showOfCourseByUsidAndCoid(o.getCoid(), lsit.get(0).getUsid())) {
+                    return 3;
                 }
             }
         } catch (Exception e) {

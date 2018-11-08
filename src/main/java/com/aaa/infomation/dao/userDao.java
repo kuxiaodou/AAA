@@ -39,7 +39,7 @@ public interface userDao {
      * 登录
      * @return
      */
-    @Select(value = "SELECT * FROM USER where name=#{param1} and password=#{param2}")
+    @Select(value = "SELECT usid, name, phone, email, password, position, state, headPortrait, theSignature, creationTime, updateTime, adid FROM USER where name=#{param1} and password=#{param2}")
     public List<user> login(String name, String password);
 
     /**

@@ -163,24 +163,24 @@ $(function() {
 		inum++;
 		if (inum % 2 != 0) {
 			$(".interact").animate({
-				right: '-360px'
+				right: '-600px'
 			},
 			'fast');
-			$(".linevideo").css("width", "96%");
+			$(".linevideo").css("width", "90%");
 			$(".iopen").show();
 			$(this).text("<");
 			$(".videoifram").width("100%").css("width", "100%");
 			$(".signp").width("100%").css("width", "100%");
 		} else {
 			$(".interact").animate({
-				right: '12px'
+				right: '0px'
 			},
 			'fast');
-			$(".linevideo").css("width", "70%");
+			$(".linevideo").css("width", "47%");
 			$(".iopen").show();
 			$(this).text(">");
-			$(".videoifram").width(wclinet - 440).css("width", wclinet - 440);
-			$(".signp").width(wclinet - 440).css("width", wclinet - 440);
+			$(".videoifram").width(wclinet - 1000).css("width", wclinet - 1000);
+			$(".signp").width(wclinet - 1000).css("width", wclinet - 1000);
 		}
 	});
 
