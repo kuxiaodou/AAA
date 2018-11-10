@@ -3,6 +3,7 @@ package com.aaa.infomation.service;
 import com.aaa.infomation.dao.iOfCourseDao;
 import com.aaa.infomation.entity.iOfCourse;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,5 +53,18 @@ public class iOfCourseService {
             return iofCoursedao.showOfCourseByUsidAndCoid(usid, coid);
         }
         return null;
+    }
+    /**
+     * 根据用户主键 课程主键 修改学习进度
+     * @param theProgressof
+     * @param coid
+     * @param usid
+     * @return
+     */
+    public boolean updateOfCourseByUsidAndCoid(double theProgressof,Integer coid,Integer usid){
+        if(iofCoursedao.updateOfCourseByUsidAndCoid(theProgressof,coid,usid)>0){
+            return true;
+        }
+        return false;
     }
 }

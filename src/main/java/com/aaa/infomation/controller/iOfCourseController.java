@@ -2,6 +2,7 @@ package com.aaa.infomation.controller;
 
 import com.aaa.infomation.entity.iOfCourse;
 import com.aaa.infomation.entity.user;
+import com.aaa.infomation.service.iOfCourseScheduleService;
 import com.aaa.infomation.service.iOfCourseService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,8 @@ import java.util.Map;
 public class iOfCourseController {
     @Resource
     public iOfCourseService iofcourseservice;
-
+    @Resource
+    private iOfCourseScheduleService iofcoursescheduleservice;
     /**
      * 添加学习课程
      *

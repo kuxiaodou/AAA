@@ -4,6 +4,7 @@ import com.aaa.infomation.entity.iOfCourse;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -41,4 +42,14 @@ public interface iOfCourseDao {
      */
      @Select("SELECT * FROM iofcourse WHERE coid=#{param1} AND usid=#{param2}")
      public List<Map<String,Object>> showOfCourseByUsidAndCoid(Integer coid,Integer usid);
+
+    /**
+     * 根据用户主键 课程主键 修改学习进度
+     * @param theProgressof
+     * @param coid
+     * @param usid
+     * @return
+     */
+     @Update("UPDATE iofcourse SET theProgressof=#{param1} WHERE coid=#{param2} AND usid=#{param2}")
+     public int updateOfCourseByUsidAndCoid(double theProgressof,Integer coid,Integer usid);
 }

@@ -39,4 +39,20 @@ public interface iOfCourseScheduleDao {
      */
     @Update("UPDATE  iofcourseschedule SET state=#{param1} WHERE usid=#{param2} AND tnid=#{param3}")
     public int updateIOfCourseSchedule(Integer state,Integer usid,Integer tnid);
+
+    /**
+     * 查看用户学所有课程
+     * @param usid
+     * @return
+     */
+    @Select("SELECT * FROM iofcourseschedule WHERE usid=#{param1} ")
+    public List<Map<String,Object>> showIOfCourseScheduleByUsidFont(Integer usid);
+    /**
+     * 查看用户学习没有学过课程
+     * @param usid
+     * @return
+     */
+    @Select("SELECT * FROM iofcourseschedule WHERE usid=#{param1} AND state=1")
+    public List<Map<String,Object>> showIOfCourseScheduleByUsidBack(Integer usid);
+
 }

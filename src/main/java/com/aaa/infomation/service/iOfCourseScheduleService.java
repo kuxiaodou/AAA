@@ -17,14 +17,16 @@ import java.util.Map;
 public class iOfCourseScheduleService {
     @Resource
     private iOfCourseScheduleDao iOfcoursescheduledao;
+
     /**
      * 添加学习课程
+     *
      * @param usid
      * @param tnid
      * @return
      */
-    public boolean addIOfCourseSchedule(Integer usid,Integer tnid ){
-        if(iOfcoursescheduledao.addIOfCourseSchedule(usid,tnid)>0){
+    public boolean addIOfCourseSchedule(Integer usid, Integer tnid) {
+        if (iOfcoursescheduledao.addIOfCourseSchedule(usid, tnid) > 0) {
             return true;
         }
         return false;
@@ -32,27 +34,53 @@ public class iOfCourseScheduleService {
 
     /**
      * 查询课程是否学习过
+     *
      * @param usid
      * @param tnid
      * @return
      */
-    public List<Map<String,Object>> showIOfCourseScheduleByUsidAndState(Integer usid, Integer tnid){
-        if(iOfcoursescheduledao.showIOfCourseScheduleByUsidAndState(usid,tnid).size()>0){
-            return iOfcoursescheduledao.showIOfCourseScheduleByUsidAndState(usid,tnid);
+    public List<Map<String, Object>> showIOfCourseScheduleByUsidAndState(Integer usid, Integer tnid) {
+        if (iOfcoursescheduledao.showIOfCourseScheduleByUsidAndState(usid, tnid).size() > 0) {
+            return iOfcoursescheduledao.showIOfCourseScheduleByUsidAndState(usid, tnid);
         }
         return null;
     }
 
     /**
      * 修改课程
+     *
      * @param usid
      * @param tnid
      * @return
      */
-    public boolean updateIOfCourseSchedule(Integer state,Integer usid,Integer tnid){
-        if(iOfcoursescheduledao.updateIOfCourseSchedule(state,usid,tnid)>0){
+    public boolean updateIOfCourseSchedule(Integer state, Integer usid, Integer tnid) {
+        if (iOfcoursescheduledao.updateIOfCourseSchedule(state, usid, tnid) > 0) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 查看用户学习所有课程
+     *
+     * @param usid
+     * @return
+     */
+    public List<Map<String, Object>> showIOfCourseScheduleByUsidFont(Integer usid) {
+        if (iOfcoursescheduledao.showIOfCourseScheduleByUsidFont(usid).size() > 0) {
+            return iOfcoursescheduledao.showIOfCourseScheduleByUsidFont(usid);
+        }
+        return null;
+    }
+    /**
+     * 查看用户学习没有学过课程
+     * @param usid
+     * @return
+     */
+    public List<Map<String,Object>> showIOfCourseScheduleByUsidBack(Integer usid){
+        if (iOfcoursescheduledao.showIOfCourseScheduleByUsidBack(usid).size() > 0) {
+            return iOfcoursescheduledao.showIOfCourseScheduleByUsidBack(usid);
+        }
+        return null;
     }
 }

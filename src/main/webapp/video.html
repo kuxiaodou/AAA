@@ -9,17 +9,18 @@
   		<!-- video.js must be in the <head> for older IEs to work. -->
 <link rel="stylesheet" href="video-js.css" >
 <link rel="stylesheet" href="css/course.css"/>
-<link rel="stylesheet" href="css/tab.css" media="screen">
-<script src="video.js"></script>
-    
+    <link rel="stylesheet" href="assets/css/layui.css">
+    <link rel="stylesheet" href="assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/tab.css" media="screen">
+    <script src="assets/layui.all.js"></script>
+    <script src="video.js"></script>
       <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
       <script>
         videojs.options.flash.swf = "video-js.swf";
-		
       </script>
       <script type="text/javascript">
 $(function(){
-
 	$('.demo2').Tabs({
 		event:'click'
 	});
@@ -73,15 +74,17 @@ $(function(){
                 margin-left: 0px;
             }
       </style>
+    <script src="assets/layui.js"></script>
 </head>
 
 <body>
+
    <div class="linevideo" style="overflow-x:hidden;overflow-x: hidden;width: 630px;">
     	<span class="returnindex"><a class="gray" href="coursecont1.html" style="font-size:14px;">返回课程</a></span>   
         <span class="taskspan"><span class="ts">课时100</span>&nbsp;&nbsp;<b class="tasktit">会计的概念与目标1</b></span> 
         <div style="width:100%;margin-top:20px;" id="video">
-			<video width="auto" id="example_video_1" class="video-js vjs-default-skin  vjs-big-play-centered vvi " controls preload="none" poster="images/1-1.mp4" data-setup="{}">&lt;!&ndash;poster是视频未播放前的展示图片&ndash;&gt;
-                <source id="mp4s"  type='video/mp4' />
+			<video width="auto"  id="example_video_1" class="video-js vjs-default-skin  vjs-big-play-centered vvi " controls preload="none" poster="images/1-1.mp4" data-setup="{}">&lt;!&ndash;poster是视频未播放前的展示图片&ndash;&gt;
+                <source id="mp4s"   type='video/mp4' />
                 <source src="images/1-1.mp4" type='video/webm' />
                 <source src="images/1-1.mp4" type='video/ogg' />
 			</video>
@@ -89,14 +92,37 @@ $(function(){
                 <button class="sign" id="jindu" style="border: 0px solid red;padding: 6px 36px;" >
                     已学完
                 </button>
+                <select id="selRate" >
+                    <option value="0.5">0.5</option>
+                    <option value="1" selected>1.0</option>
+                    <option value="1.25">1.25</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2.0</option>
+                </select>
                 <!--<span class="nextcourse" title="下一课时">∨</span>-->
             </p>
-            <!--<p class="signp" id="signpb">
+            <p class="signp" id="signpb">
                 <button  id="jindus" style="height: 30px;border: 0px solid red;color: #fff;padding: 3px 10px;padding-left: 40px;border-radius: 3px; background:url(images/ico_detail_item.png) no-repeat 15px -1247px #3eb0e0;cursor: pointer;" >
                     该课程已经学完
                 </button>
-                &lt;!&ndash;<span class="nextcourse" title="下一课时">∨</span>&ndash;&gt;
-            </p>-->
+                <select id="selRates" >
+                    <option value="0.5">0.5</option>
+                    <option value="1" selected>1.0</option>
+                    <option value="1.25">1.25</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2.0</option>
+                </select>
+                <!--<span class="nextcourse" title="下一课时">∨</span>-->
+            </p>
+            <!--<div style="margin-left: 450px;margin-top: -30px;">
+                <select id="selRate" >
+                    <option value="0.5">0.5</option>
+                    <option value="1" selected>1.0</option>
+                    <option value="1.25">1.25</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2.0</option>
+                </select>
+            </div>-->
         </div>
     </div>    
   <div class="interact">
@@ -210,19 +236,18 @@ $(function(){
           var cateval = category.substring(category.indexOf('=')+1, category.indexOf('&'));//课程主键
           var catevals = category.substring(category.indexOf('&')+1, category.length);//课程视频
           var catevalss = category.substring(category.lastIndexOf('&')+1, category.length);//课程视频
-          var catevalsss = category.substring(category.indexOf('&')+1,category.lastIndexOf('&'));//课程视频
+          var catevalsss = category.substring(category.indexOf('&')+1,category.lastIndexOf('&').length);//课程视频
           $('#jindu').val(catevalss);
           this.Url = 'video/32465635-b760-499b-80c5-f37ebd767b16.mp4';
           $('body').find("#mp4s").attr("src", cateval );
           //signpa 点击学完
           //signpb 已经学完
-          /*$.ajax({
-              url:'controllerTheCourseCatalogInfo/showtheCourseCatalogInfoByState',
+          $.ajax({
+              url:'controllerIOfCourseSchedule/showIOfCourseScheduleByUsidAndState',
               type:'post',
               data:{"tnid":$('#jindu').val()},
               dataType:'json',
               success:function (data) {
-                  alert(data)
                   if(data==false){
                       $('#signpa').show();
                       $('#signpb').hide();
@@ -231,7 +256,7 @@ $(function(){
                       $('#signpa').hide();
                   }
               }
-          })*/
+          })
           var cou = "";
           var cous = "";
           var ins =0;
@@ -262,7 +287,7 @@ $(function(){
                           data: {"tcid": data[i].tcid},
                           success: function (datas) {
                               for (var j = 0; j < datas.length; j++) {
-                                  cous +="<a href='video.html?="+datas[j].tvideo+"&"+catevals+"'><dd><i class=\"forwa nn\"></i><strong class=\"cataloglink\">" + datas[j].tname + "</strong></dd></a>";
+                                  cous +="<a href='video.html?="+datas[j].tvideo+"&"+catevals+"&"+datas[j].tnid+"'><dd><i class=\"forwa nn\"></i><strong class=\"cataloglink\">" + datas[j].tname + "</strong></dd></a>";
                                  // cous += "<dd class='smalltitle'><strong><a href='video.html?="+datas[j].tvideo+"&"+catevals+"'>" + datas[j].tname + "</a></strong></dd>";
                               }
                               $("." + ins).html(cous);
@@ -311,7 +336,7 @@ $(function(){
                   url:'controllerCourseqa/addCourseqa',
                   type:'post',
                   dataType:'json',
-                  data:{"coid":catevalsss,"title":$('#pltitle').val(),"context":$('#plcontext').val()},
+                  data:{"coid":catevals,"title":$('#pltitle').val(),"context":$('#plcontext').val()},
                   success:function (data) {
                       alert(data)
                       if(data==true){
@@ -340,18 +365,46 @@ $(function(){
               })
           })
           $('#jindu').click(function () {
-              alert($('#jindu').val())
+              var coids=catevalsss.substring(0,catevalsss.indexOf('&'));
               $.ajax({
-                  url:'controllerTheCourseCatalogInfo/updatetheCourseCatalogInfo',
+                  url:'controllerIOfCourseSchedule/updateIOfCourseSchedule',
                   type:'post',
-                  data:{"tnid":$('#jindu').val()},
+                  data:{"tnid":$('#jindu').val(),"coid":coids},
                   dataType:'json',
                   success:function (data) {
-                      alert(data)
+                      if (data==true){
+                          alert("成功学习完！");
+                          $('#signpb').show();
+                          $('#signpa').hide();
+                      } else{
+                          alert("请登入！");
+                      }
                   }
               })
           })
+          var adf = document.getElementById('example_video_1');
+          video.playbackRate = 2;
       })
+  </script>
+  <script>
+      var eleSelect = document.getElementById('selRate');
+      var eleSelects = document.getElementById('selRates');
+      var x = document.getElementById("example_video_1");
+      function getPlaySpeed() {
+          alert(x.defaultPlaybackRate);
+      }
+
+      function setPlaySpeed() {
+          x.defaultPlaybackRate = 5;
+          x.load();
+      }
+      // 改变播放速率
+      eleSelect.addEventListener('change', function () {
+          x.playbackRate = this.value;
+      });
+      eleSelects.addEventListener('change', function () {
+          x.playbackRate = this.value;
+      });
   </script>
 </body>
 </html>
